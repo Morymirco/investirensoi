@@ -65,7 +65,7 @@ const MindeoSection = () => {
             <div className="absolute right-0 md:right-8 transform rotate-3 shadow-xl rounded-3xl">
               <div className="relative w-64 md:w-80 h-auto overflow-hidden rounded-3xl  border-gray-900">
                 <Image 
-                  src="/phone.png" 
+                  src="/phone3.png" 
                   alt="Mindeo app screenshot"
                   width={320}
                   height={650}
@@ -80,7 +80,7 @@ const MindeoSection = () => {
             <div className="absolute left-12 md:left-0 top-12 transform -rotate-6 shadow-xl rounded-3xl">
               <div className="relative w-48 md:w-64 h-auto overflow-hidden rounded-3xl border-gray-900">
                 <Image 
-                  src="/phone.png" 
+                  src="/phone2.png" 
                   alt="Mindeo pack screenshot"
                   width={250}
                   height={500}

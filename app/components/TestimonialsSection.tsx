@@ -28,31 +28,31 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <div className="bg-indigo-50 py-16">
+    <div className="bg-[#070D33] py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-indigo-900">Ce que nos étudiants disent</h2>
-          <p className="mt-4 text-xl text-indigo-700">
+          <h2 className="text-3xl font-bold text-white">Ce que nos étudiants disent</h2>
+          <p className="mt-4 text-xl text-white">
             Des milliers de personnes ont déjà transformé leur vie avec nos formations.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial) => (
-            <div key={testimonial.id} className="bg-white p-6 rounded-lg shadow-md">
+            <div key={testimonial.id} className="bg-[#070730] p-6 rounded-lg shadow-md">
               <div className="flex items-center mb-4">
-                <div className="h-12 w-12 rounded-full bg-indigo-200 flex items-center justify-center mr-4">
+                <div className="h-12 w-12 rounded-full bg-[#00b67a] flex items-center justify-center mr-4">
                   {/* Replace with actual image if available */}
-                  <span className="text-indigo-800 font-bold text-xl">
+                  <span className="text-white font-bold text-xl">
                     {testimonial.name.charAt(0)}
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                  <p className="text-indigo-700">{testimonial.role}</p>
+                  <h3 className="font-bold text-lg text-white">{testimonial.name}</h3>
+                  <p className="text-white">{testimonial.role}</p>
                 </div>
               </div>
-              <p className="text-gray-700">{testimonial.content}</p>
+              <p className="text-white">{testimonial.content}</p>
             </div>
           ))}
         </div>
@@ -60,7 +60,7 @@ const TestimonialsSection = () => {
         <div className="mt-12 text-center">
           <a 
             href="#temoignages" 
-            className="text-indigo-800 font-medium hover:text-indigo-600 underline"
+            className="text-white font-medium hover:text-white"
           >
             Voir plus de témoignages →
           </a>

@@ -1,5 +1,5 @@
 import { Mail, Phone } from "lucide-react"
-
+import Image from "next/image"
 
 export default function Footer() {
   return (
@@ -10,7 +10,9 @@ export default function Footer() {
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
               {/* Logo */}
-              <div className="w-10 h-10 rounded-full bg-purple-600"></div>
+              <div className="w-10 h-10 rounded-full bg-[#000025]">
+                <Image src="/logo_footer.png" alt="Logo" width={100} height={400} className="w-auto h-10"/>
+              </div>
               <span className="text-white text-xl font-bold">INVESTIR EN SOI</span>
             </div>
             <div className="text-gray-400 space-y-2">
@@ -79,9 +81,9 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Email"
-                className="bg-[#1A1F3D] border-gray-700 text-white placeholder:text-gray-500"
+                className="bg-[#1A1F3D] border-gray-700 text-white placeholder:text-gray-500 px-4 py-2 rounded-lg"
               />
-              <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex items-center space-x-2 transition-colors">
+              <button className="bg-[#cbcdff] hover:bg-[#50528f] hover:text-white text-indigo-900 px-6 py-2 rounded-lg flex items-center space-x-2 transition-colors">
                 <Mail className="w-4 h-4" />
                 <span>S&apos;inscrire</span>
               </button>
@@ -98,10 +100,10 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="transition-transform hover:scale-105">
-                <img src="/placeholder.svg?height=40&width=135" alt="Get it on Google Play" className="h-12" />
+                <img src="/Google-Play.png.webp" alt="Get it on Google Play" className="h-12" />
               </a>
               <a href="#" className="transition-transform hover:scale-105">
-                <img src="/placeholder.svg?height=40&width=135" alt="Download on the App Store" className="h-12" />
+                <img src="/App-Store.png" alt="Download on the App Store" className="h-12" />
               </a>
             </div>
           </div>

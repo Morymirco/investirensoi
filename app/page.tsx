@@ -10,7 +10,16 @@ import MissionSection from './components/MissionSection';
 import FeaturedCourses from './components/featured-courses';
 import Footer from './components/footer';
 import MindeoSection from './components/mindeo-section';
+import CategoryList from './components/CategoryList';
+
 export default function Home() {
+  const categories = [
+    { id: 1, name: 'Web Development' },
+    { id: 2, name: 'Mobile Development' },
+    { id: 3, name: 'Data Science' },
+    { id: 4, name: 'Machine Learning' },
+    { id: 5, name: 'Artificial Intelligence' },
+  ];
   return (
     <div className="min-h-screen flex flex-col relative">
       <Head>
@@ -24,7 +33,8 @@ export default function Home() {
       <HeroSection />
       <MissionSection />
       <FeaturedCourses />
-      <SpiralIcon />
+      {/* <CategoryList categories={categories} /> */}
+      {/* <SpiralIcon /> */}
       {/* <ChatIcon /> */}
       <FeaturesSection />
       <CourseSection />

@@ -68,15 +68,15 @@ const CourseSection = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-[#070D33]">
       <div className="container max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 ">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <p className="text-gray-600 mb-2">Toujours hésitant ?</p>
-          <h2 className="text-4xl font-bold mb-6">
+          <p className="text-white mb-2">Toujours hésitant ?</p>
+          <h2 className="text-4xl font-bold mb-6 text-white">
             Découvrez nos contenus <span className="text-indigo-500">gratuits</span>
           </h2>
-          <p className="max-w-3xl mx-auto text-gray-600 leading-relaxed">
+          <p className="max-w-3xl mx-auto text-white leading-relaxed">
             Nos mini formations gratuites vous aideront à développer des fondations solides dans les domaines du
             développement personnel, du business en ligne, de l'entrepreneuriat et de l'investissement.
           </p>
@@ -105,7 +105,7 @@ const CourseSection = () => {
                     flexBasis: isMobile ? '100%' : cardsToShow === 2 ? '50%' : '28.333%' 
                   }}
                 >
-                  <div className="bg-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col transition-all duration-300 hover:shadow-xl">
+                  <div className="bg-white/10 border border-white/30 text-white rounded-xl overflow-hidden shadow-lg h-full flex flex-col transition-all duration-300 hover:shadow-xl">
                     <div className="relative h-48 overflow-hidden">
                       <Image
                         src={course.image}
@@ -120,9 +120,9 @@ const CourseSection = () => {
                       />
                     </div>
                     <div className="p-6 flex flex-col flex-grow">
-                      <h3 className="text-xl font-bold mb-3">{course.title}</h3>
-                      <p className="text-gray-600 mb-6 flex-grow">{course.description}</p>
-                      <button className="mt-auto w-full bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2.5 px-4 rounded-full transition-colors duration-300">
+                      <h3 className="text-xl font-bold mb-3 text-[#00b67a]">{course.title}</h3>
+                      <p className="text-white mb-6 flex-grow">{course.description}</p>
+                      <button className="mt-auto w-full bg-[#cbcdff] hover:bg-[#50528f] hover:text-white text-indigo-900 font-medium py-2.5 px-4 rounded-full transition-colors duration-300">
                         Voir la formation gratuite
                       </button>
                     </div>

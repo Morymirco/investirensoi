@@ -9,7 +9,8 @@ export default function Sidebar() {
   const categories = ["Business", "Investissement", "Développement personnel"];
 
   return (
-    <aside className="bg-white bg-opacity-80 backdrop-blur-md text-black p-6 rounded-lg shadow-lg w-full sm:w-64 h-full sm:h-auto sm:max-h-[80vh] mt-4 sm:mt-32">
+    
+    <aside className="bg-white/10 border border-white/30 text-white bg-opacity-80 backdrop-blur-md  p-6 rounded-lg shadow-lg w-full sm:w-64 h-full sm:h-auto sm:max-h-[80vh] mt-4 sm:mt-32">
       <h2 className="text-xl font-bold mb-4">Filtrer par</h2>
 
       {/* Barre de recherche */}

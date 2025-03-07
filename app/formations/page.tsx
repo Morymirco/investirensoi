@@ -1,8 +1,91 @@
 "use client"
 import Image from "next/image";
 import Sidebar from "../components/Sidebar";
+import CourseCard from "../components/CourseCard";
+import { Star } from "lucide-react";
+import { useState } from "react";
+//liste des formations
+//https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp
+// Définition du type pour une formation
+interface Formation {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  rating: number;
+  category: string;
+  date: string;
+}
 
+// Liste des formations
+const formations: Formation[] = [
+  {
+    id: 1,
+    title: "Formation en Finance",
+    price: 100000,
+    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
+    rating: 4,
+    category: "Finance",
+    date: "2024-02-10",
+  },
+  {
+    id: 2,
+    title: "Formation en Marketing",
+    price: 150000,
+    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
+    rating: 5,
+    category: "Marketing",
+    date: "2024-03-05",
+  },
+  {
+    id: 3,
+    title: "Formation en Développement",
+    price: 120000,
+    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
+    rating: 3,
+    category: "Développement",
+    date: "2024-01-20",
+  },
+  {
+    id: 4,
+    title: "Formation en Développement",
+    price: 120000,
+    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
+    rating: 3,
+    category: "Développement",
+    date: "2024-01-20",
+  },
+  {
+    id: 5,
+    title: "Formation en Développement",
+    price: 120000,
+    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
+    rating: 3,
+    category: "Développement",
+    date: "2024-01-20",
+  },
+  {
+    id: 6,
+    title: "Formation en Développement",
+    price: 120000,
+    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
+    rating: 3,
+    category: "Développement",
+    date: "2024-01-20",
+  },
+];
 export default function Formations() {
+  const [sortOption, setSortOption] = useState("recent");
+ // Fonction de tri
+  // Fonction de tri
+  const sortedFormations = [...formations].sort((a, b) => {
+    if (sortOption === "priceAsc") return a.price - b.price; // Prix croissant
+    if (sortOption === "priceDesc") return b.price - a.price; // Prix décroissant
+    if (sortOption === "popular") return b.rating - a.rating; // Popularité
+    if (sortOption === "recent") return new Date(b.date).getTime() - new Date(a.date).getTime(); // Plus récent
+    return 0;
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#010128] to-[#a54957] text-white p-8 ">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row gap-8">
@@ -14,182 +97,26 @@ export default function Formations() {
             Découvrez notre large gamme de formations conçues pour vous aider à développer vos compétences dans divers domaines.
           </p>
           
+          
+      {/* Select pour le tri */}
+      <div className="mb-6 flex justify-end">
+        <select
+          className="border rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring focus:border-blue-300"
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+        >
+          <option value="recent" className="text-black">Les plus récentes</option>
+          <option value="popular" className="text-black">Les plus populaires</option>
+          <option value="priceAsc" className="text-black">Prix croissant</option>
+          <option value="priceDesc" className="text-black">Prix décroissant</option>
+        </select>
+      </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Carte de formation 1 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 1"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 1</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 1. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 199€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
+        
+       {sortedFormations.map((formation) => (
+        <CourseCard key={formation.id} {...formation} />
+       ))}
 
-            {/* Carte de formation 2 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 2"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 2</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 2. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 249€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
-
-            {/* Carte de formation 3 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 3"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 3</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 3. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 299€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
-
-            {/* Carte de formation 4 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 4"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 4</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 4. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 349€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
-
-            {/* Carte de formation 5 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 5"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 5</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 5. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 399€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
-
-            {/* Carte de formation 6 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 6"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 6</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 6. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 449€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
-
-            {/* Carte de formation 7 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 7"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 7</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 7. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 499€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
-
-            {/* Carte de formation 8 */}
-            <div className="bg-white text-black p-6 rounded-lg shadow-lg">
-              <Image
-                src="https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg"
-                alt="Formation 8"
-                width={420}
-                height={300}
-                className="rounded-lg mb-4"
-              />
-              <h2 className="text-2xl font-bold mb-2">Titre de la Formation 8</h2>
-              <p className="text-sm mb-4">
-                Description brève de la formation 8. Apprenez les compétences essentielles pour réussir dans ce domaine.
-              </p>
-              <p className="text-lg font-semibold mb-4">Prix: 549€</p>
-              <a
-                href="/signup"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-600"
-              >
-                S'inscrire maintenant
-              </a>
-            </div>
           </div>
         </div>
       </div>

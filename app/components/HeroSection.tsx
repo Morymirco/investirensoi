@@ -15,7 +15,7 @@ export default function MindeoHero() {
           {/* Left content */}
           <div className="text-white space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              L&apos;école 2.0 qui vous accompagne vers vos objectifs
+              Insvertir en Soi – L&apos;école 2.0 qui vous accompagne vers vos objectifs 🎯
             </h1>
 
             <div className="flex items-center space-x-2">
@@ -23,19 +23,18 @@ export default function MindeoHero() {
               <span className="font-medium">4.6 sur 5</span>
               <div className="flex items-center">
                 <Star className="h-4 w-4 fill-current text-[#00b67a] stroke-[#00b67a]" />
-                <Image
+                {/* <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Capture%20d%E2%80%99%C3%A9cran%202025-03-05%20122247-kV60gsRM7R22Qmld2oCXcDFoYD3bWc.png"
                   alt="Trustpilot"
                   width={80}
                   height={20}
                   className="h-5 ml-1"
-                />
+                /> */}
               </div>
             </div>
 
             <p className="text-lg md:text-xl opacity-90 max-w-lg">
-              Mindeo est l&apos;école en ligne qui vous permet d&apos;acquérir les compétences nécessaires dans les
-              domaines du business, de l&apos;investissement et du développement personnel.
+            Insvertir en Soi est l'école en ligne qui vous permet d'acquérir les compétences essentielles dans les domaines du business, de l’investissement, du développement personnel, de l’informatique et du digital.
             </p>
 
             <div>

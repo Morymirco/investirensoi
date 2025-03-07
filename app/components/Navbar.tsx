@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
-
+import Image from "next/image"
 export default function MindeoNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -17,39 +17,7 @@ export default function MindeoNavbar() {
           <div className="h-20 flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
-              <svg
-                width="120"
-                height="40"
-                viewBox="0 0 300 100"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-auto h-8"
-              >
-                <path
-                  d="M51.5 20C48.5 20 46 22.5 46 25.5C46 28.5 48.5 31 51.5 31C54.5 31 57 28.5 57 25.5C57 22.5 54.5 20 51.5 20Z"
-                  fill="white"
-                />
-                <path
-                  d="M30 40L46 25L62 40L46 55L30 40Z"
-                  stroke="white"
-                  strokeWidth="6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path d="M80 25H95V80H80V25Z" fill="white" />
-                <path d="M110 25H125V80H110V25Z" fill="white" />
-                <path d="M140 25H155V80H140V25Z" fill="white" />
-                <path
-                  d="M170 25H215C223.284 25 230 31.7157 230 40V65C230 73.2843 223.284 80 215 80H170V25Z"
-                  fill="white"
-                />
-                <path
-                  d="M245 25H290C298.284 25 305 31.7157 305 40V65C305 73.2843 298.284 80 290 80H245V25Z"
-                  fill="white"
-                />
-                <path d="M185 40H215C215 40 215 65 215 65H185V40Z" fill="black" />
-                <path d="M260 40H290C290 40 290 65 290 65H260V40Z" fill="black" />
-              </svg>
+            <Image src="/logo.png" alt="Logo" width={100} height={400} className="w-auto h-10"/>
             </Link>
 
             {/* Desktop Navigation */}
@@ -67,7 +35,7 @@ export default function MindeoNavbar() {
                 À propos
               </Link>
               <Link href="/recrutement" className="text-white hover:text-gray-200 text-sm font-medium">
-                Recrutement
+               Cabinets
               </Link>
             </div>
 

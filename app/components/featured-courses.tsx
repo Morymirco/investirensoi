@@ -80,7 +80,7 @@ export default function FeaturedCourses() {
   return (
     <section className="bg-[#000025] py-20">
       {/* Use max-w classes to limit width and center content */}
-      <div className="max-w-7xl mx-auto  ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Cours en ligne en vedette</h2>
           <p className="text-gray-400 text-lg max-w-3xl mx-auto">
@@ -92,7 +92,7 @@ export default function FeaturedCourses() {
           {courses.map((course) => (
             <div
               key={course.id}
-              className="bg-[#070730] rounded-2xl overflow-hidden transition-transform hover:scale-[1.02] border border-[#cbcdff]"
+              className="bg-white/10 border border-white/30 text-white rounded-2xl overflow-hidden transition-transform hover:scale-[1.02] border"
             >
               <div className="relative">
                 <img src={course.image || "/placeholder.svg"} alt={course.title} className="w-full h-48 object-cover" />
@@ -105,7 +105,7 @@ export default function FeaturedCourses() {
               </div>
 
               <div className="p-6">
-                <h3 className="text-white font-semibold text-xl mb-6 line-clamp-2 ">{course.title}</h3>
+                <h3 className="text-[#00b67a] font-semibold text-xl mb-6 line-clamp-2 ">{course.title}</h3>
 
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-purple-500 font-bold">{course.price}</span>
@@ -116,7 +116,7 @@ export default function FeaturedCourses() {
                   </div>
                 </div>
 
-                <button className="w-full bg-[#cbcdff] hover:bg-[#50528f] text-indigo-900 font-medium py-2 rounded-full transition-colors text-[14px]">
+                <button className="w-full bg-[#cbcdff] hover:bg-[#50528f] hover:text-white text-indigo-900 font-medium py-2 rounded-full transition-colors text-[14px]">
                   Inscrivez-vous maintenant
                 </button>
               </div>

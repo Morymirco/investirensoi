@@ -9,9 +9,10 @@ interface CourseProps {
   rating: number
   category: string
   date: string
+  level: string
 }
 
-export default function CourseCard({ title, price, image, rating, date }: CourseProps) {
+export default function CourseCard({ title, price, image, rating, date, level }: CourseProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -78,6 +79,11 @@ export default function CourseCard({ title, price, image, rating, date }: Course
           <div className="flex items-center mb-4">
             <img src="/mory.jpg" alt="Auteur" className="w-7 h-7 rounded-full mr-2" />
             <span className="text-gray-500">Mory Koulibaly</span>
+          </div>
+
+          {/* Niveau de la formation */}
+          <div className="flex items-center mb-4">
+            <span className="text-white">Niveau : {level}</span>
           </div>
           
           <div className="mt-auto">

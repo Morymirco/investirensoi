@@ -15,6 +15,7 @@ interface Formation {
   rating: number;
   category: string;
   date: string;
+  level: string;
 }
 
 // Liste des formations
@@ -27,6 +28,7 @@ const formations: Formation[] = [
     rating: 4,
     category: "Finance",
     date: "2024-02-10",
+    level: "Débutant",
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ const formations: Formation[] = [
     rating: 5,
     category: "Marketing",
     date: "2024-03-05",
+    level: "Intermédiaire",
   },
   {
     id: 3,
@@ -45,7 +48,8 @@ const formations: Formation[] = [
     rating: 3,
     category: "Développement",
     date: "2024-01-20",
-  },
+    level: "Intermédiaire",
+    },
   {
     id: 4,
     title: "Formation en Développement",
@@ -54,7 +58,8 @@ const formations: Formation[] = [
     rating: 3,
     category: "Développement",
     date: "2024-01-20",
-  },
+    level: "Intermédiaire",
+    },
   {
     id: 5,
     title: "Formation en Développement",
@@ -63,7 +68,8 @@ const formations: Formation[] = [
     rating: 3,
     category: "Développement",
     date: "2024-01-20",
-  },
+    level: "Intermédiaire",
+    },
   {
     id: 6,
     title: "Formation en Développement",
@@ -72,6 +78,7 @@ const formations: Formation[] = [
     rating: 3,
     category: "Développement",
     date: "2024-01-20",
+    level: "Intermédiaire",
   },
 ];
 export default function Formations() {

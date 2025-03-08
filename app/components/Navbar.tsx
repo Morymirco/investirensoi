@@ -31,7 +31,7 @@ export default function MindeoNavbar() {
               <Link href="/contact" className="text-white hover:text-gray-200 text-sm font-medium">
                 Contact
               </Link>
-              <Link href="/a-propos" className="text-white hover:text-gray-200 text-sm font-medium">
+              <Link href="/apropos" className="text-white hover:text-gray-200 text-sm font-medium">
                 À propos
               </Link>
               <Link href="/cabinets" className="text-white hover:text-gray-200 text-sm font-medium">

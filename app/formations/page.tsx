@@ -654,7 +654,7 @@ export default function FormationsPage() {
 
   // Clear filters
   const clearFilters = () => {
-    const resetFilters = {
+    const resetFilters: FilterState = {
       categories: [],
       levels: [],
       priceRange: [0, 300],
@@ -732,7 +732,7 @@ export default function FormationsPage() {
                 <p className="text-gray-300">{filteredCourses.length} formations trouvées</p>
               </div>
 
-              <div className="flex items-center">
+              <div className="flex items-center"> 
                 <span className="text-gray-300 mr-2">Trier par:</span>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-[180px] bg-[#1C1D33] border-gray-700 text-white">

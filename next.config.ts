@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'dev-geniusclass2.pantheonsite.io',
       },
+      
       {
         protocol: 'https',
         hostname: 'storyset.com',

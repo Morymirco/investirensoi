@@ -25,16 +25,16 @@ export default function MindeoNavbar() {
               <Link href="/formations" className="text-white hover:text-gray-200 text-sm font-medium">
                 Nos formations
               </Link>
-              <Link href="/experts" className="text-white hover:text-gray-200 text-sm font-medium">
+              {/* <Link href="/experts" className="text-white hover:text-gray-200 text-sm font-medium">
                 Nos experts
-              </Link>
-              <Link href="/contenus-gratuits" className="text-white hover:text-gray-200 text-sm font-medium">
-                Nos contenus gratuits
+              </Link> */}
+              <Link href="/contact" className="text-white hover:text-gray-200 text-sm font-medium">
+                Contact
               </Link>
               <Link href="/a-propos" className="text-white hover:text-gray-200 text-sm font-medium">
                 À propos
               </Link>
-              <Link href="/recrutement" className="text-white hover:text-gray-200 text-sm font-medium">
+              <Link href="/cabinets" className="text-white hover:text-gray-200 text-sm font-medium">
                Cabinets
               </Link>
             </div>
@@ -75,33 +75,33 @@ export default function MindeoNavbar() {
               >
                 Nos formations
               </Link>
-              <Link
+              {/* <Link
                 href="/experts"
                 className="block text-white hover:text-gray-200 text-sm font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Nos experts
-              </Link>
+              </Link> */}
               <Link
-                href="/contenus-gratuits"
+                href="/contact"
                 className="block text-white hover:text-gray-200 text-sm font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Nos contenus gratuits
-              </Link>
+                Contact
+                </Link>
               <Link
-                href="/a-propos"
+                href="/apropos"
                 className="block text-white hover:text-gray-200 text-sm font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 À propos
               </Link>
               <Link
-                href="/recrutement"
+                href="/cabinets"
                 className="block text-white hover:text-gray-200 text-sm font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Recrutement
+                  Cabinets
               </Link>
               <Link
                 href="/login"

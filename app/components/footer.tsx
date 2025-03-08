@@ -1,5 +1,6 @@
 import { Mail, Phone } from "lucide-react"
 import Image from "next/image"
+import { Input } from "@/components/ui/input"
 
 export default function Footer() {
   return (
@@ -78,10 +79,10 @@ export default function Footer() {
               informations gratuites.
             </p>
             <div className="flex space-x-2">
-              <input
+              <Input
                 type="email"
                 placeholder="Email"
-                className="bg-[#1A1F3D] border-gray-700 text-white placeholder:text-gray-500 px-4 py-2 rounded-lg"
+                className="bg-[#1A1F3D] border-gray-700 text-white placeholder:text-gray-500 "
               />
               <button className="bg-[#cbcdff] hover:bg-[#50528f] hover:text-white text-indigo-900 px-6 py-2 rounded-lg flex items-center space-x-2 transition-colors">
                 <Mail className="w-4 h-4" />

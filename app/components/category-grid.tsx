@@ -55,7 +55,7 @@ const categories = [
 
 export function CategoryGrid() {
   return (
-    <div className="grid max-w-7xl mx-auto px-4 py-12 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+    <div className="grid px-4 py-12 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
       {categories.map((category, index) => (
         <CategoryCard
           key={index}

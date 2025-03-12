@@ -1,19 +1,13 @@
 "use client"
 import Head from 'next/head';
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import ChatIcon from './components/ChatIcon';
-import SpiralIcon from './components/SpiralIcon';
 import CourseSection from './components/CourseSection';
 import FeaturesSection from './components/FeaturesSection';
-import TestimonialsSection from './components/TestimonialsSection';
+import HeroSection from './components/HeroSection';
 import MissionSection from './components/MissionSection';
-import FeaturedCourses from './components/featured-courses';
-import Footer from './components/footer';
-import MindeoSection from './components/mindeo-section';
-import CategoryList from './components/CategoryList';
+import TestimonialsSection from './components/TestimonialsSection';
 import { CategoryGrid } from './components/category-grid';
-import { EventCard } from './components/event-card';
+import FeaturedCourses from './components/featured-courses';
+import MindeoSection from './components/mindeo-section';
 
 import { ArrowUp } from 'lucide-react';
 export default function Home() {
@@ -81,12 +75,14 @@ export default function Home() {
       
       <HeroSection />
       <MissionSection />
-      <div className="bg-[#070D33] container mx-auto px-4 py-12">
-      <div className="text-center mb-12 ">
-        <h1 className="text-4xl font-bold text-white mb-2">Top Categories</h1>
-        <p className="text-white">12,000+ unique online course list designs</p>
-      </div>
-      <CategoryGrid />
+      <div className="bg-[#070D33] w-full">
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center mb-12 ">
+            <h1 className="text-4xl font-bold text-white mb-2">Top Categories</h1>
+            <p className="text-white">12,000+ unique online course list designs</p>
+          </div>
+          <CategoryGrid />
+        </div>
       </div>
       <FeaturedCourses />
       {/* <CategoryList categories={categories} /> */}

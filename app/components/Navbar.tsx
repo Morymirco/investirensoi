@@ -4,8 +4,22 @@ import { useState } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
+import { useAuth } from "@/context/AuthContext"
+import { logout } from "@/services/auth"
+import { Button } from "@/components/ui/button"
+
 export default function MindeoNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, loading } = useAuth()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+      console.log("Déconnexion réussie")
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion :", error)
+    }
+  }
 
   return (
     <div className="relative p-10">
@@ -41,14 +55,24 @@ export default function MindeoNavbar() {
 
             {/* Login Button */}
             <div className="hidden md:block">
-              <Link
-                href="/login"
-                 className="bg-white/10 border border-white/30 text-white px-6 py-2 rounded-full cursor-pointer transition duration-300 hover:bg-white/20"
-                // className="inline-flex items-center justify-center rounded-full bg-[#2f1a45] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#3a2154] transition-colors"
-              >
-                Se connecter
-              </Link>
-
+              {loading ? (
+                <p className="text-gray-400">Chargement...</p>
+              ) : user ? (
+                <div className="flex items-center space-x-4">
+                  <span className="text-white">Bonjour, {user.email}</span>
+                  <Button className="bg-red-500 hover:bg-red-600 text-white" onClick={handleLogout}>
+                    Déconnexion
+                  </Button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                   className="bg-white/10 border border-white/30 text-white px-6 py-2 rounded-full cursor-pointer transition duration-300 hover:bg-white/20"
+                  // className="inline-flex items-center justify-center rounded-full bg-[#2f1a45] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#3a2154] transition-colors"
+                >
+                  Se connecter
+                </Link>
+              )}
             </div>
 
             {/* Mobile menu button */}
@@ -103,16 +127,25 @@ export default function MindeoNavbar() {
               >
                   Cabinets
               </Link>
-              <Link
-                href="/login"
-                className="inline-flex items-center justify-center rounded-full bg-[#2f1a45] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#3a2154] transition-colors w-full"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Se connecter
-              </Link>
-
-
-              
+              {user ? (
+                <Button
+                  className="inline-flex items-center justify-center rounded-full bg-[#2f1a45] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#3a2154] transition-colors w-full"
+                  onClick={() => {
+                    handleLogout()
+                    setIsMenuOpen(false)
+                  }}
+                >
+                  Déconnexion
+                </Button>
+              ) : (
+                <Link
+                  href="/login"
+                  className="inline-flex items-center justify-center rounded-full bg-[#2f1a45] px-6 py-2.5 text-sm font-medium text-white hover:bg-[#3a2154] transition-colors w-full"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Se connecter
+                </Link>
+              )}
             </div>
           </div>
         )}

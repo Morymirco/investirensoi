@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { FaStar, FaSearch, FaFilter, FaMapMarkerAlt, FaUserGraduate, FaCalendarAlt } from "react-icons/fa"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { motion } from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { useState } from "react"
+import { FaCalendarAlt, FaFilter, FaMapMarkerAlt, FaSearch, FaStar, FaUserGraduate } from "react-icons/fa"
 
 // Animation variants
 const containerVariants = {
@@ -73,7 +74,11 @@ const CabinetCard = ({ cabinet }: { cabinet: any }) => (
         </div>
       </div>
 
-      <Button className="w-full bg-[#048B9A] hover:bg-[#037483] text-white">Voir les détails</Button>
+      <Link href={`/cabinets/${cabinet.id}`} className="block">
+        <Button className="w-full bg-[#048B9A] hover:bg-[#037483] text-white">
+          Voir les détails
+        </Button>
+      </Link>
     </div>
   </motion.div>
 )
@@ -217,18 +222,23 @@ export default function CabinetsPage() {
       {/* Main content */}
       <div className="container mx-auto px-4 py-12">
         <Tabs defaultValue="all" className="mb-8">
-          <TabsList className="bg-[#151627] border border-gray-800 p-1 text-white">
-            {categories.map((category) => (
-              <TabsTrigger
-                key={category}
-                value={category}
-                onClick={() => setSelectedCategory(category)}
-                className="data-[state=active]:bg-[#048B9A] data-[state=active]:text-white"
-              >
-                {category === "all" ? "Tous" : category}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="relative">
+            <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+              <TabsList className="bg-[#151627] border border-gray-800 p-1 text-white inline-flex whitespace-nowrap">
+                {categories.map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className="data-[state=active]:bg-[#048B9A] data-[state=active]:text-white flex-shrink-0"
+                  >
+                    {category === "all" ? "Tous" : category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#0A0B1C] pointer-events-none md:hidden" />
+          </div>
         </Tabs>
 
         <motion.div

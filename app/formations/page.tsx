@@ -174,10 +174,12 @@ const FilterSidebar = ({
 
       {/* Sidebar */}
       <motion.div
-        className={`fixed lg:sticky top-0 left-0 h-screen lg:h-auto overflow-y-auto w-[280px] bg-[#151627] border-r border-gray-800 p-5 z-50 lg:z-0 ${isOpen ? "block" : "hidden lg:block"}`}
+        className={`fixed lg:relative top-0 left-0 h-screen lg:h-auto overflow-y-auto w-[280px] bg-[#151627] border-r border-gray-800 p-5 z-50 ${
+          isOpen ? "block" : "hidden lg:block"
+        }`}
         variants={sidebarVariants}
         initial="hidden"
-        animate={isOpen ? "visible" : "hidden"}
+        animate={isOpen ? "visible" : "visible"} // Always visible on desktop
       >
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold text-white">Filtres</h2>
@@ -732,7 +734,7 @@ export default function FormationsPage() {
                 <p className="text-gray-300">{filteredCourses.length} formations trouvées</p>
               </div>
 
-              <div className="flex items-center"> 
+              <div className="flex items-center">
                 <span className="text-gray-300 mr-2">Trier par:</span>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-[180px] bg-[#1C1D33] border-gray-700 text-white">

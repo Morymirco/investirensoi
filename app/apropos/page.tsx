@@ -34,7 +34,7 @@ export default function AProposPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative h-[400px] rounded-xl overflow-hidden"
             >
-              <Image src="/placeholder.svg?height=800&width=600" alt="Notre équipe" fill className="object-cover" />
+              <Image src="/equipe.jpg" alt="Notre équipe" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B1C] to-transparent opacity-60"></div>
             </motion.div>
           </div>
@@ -86,7 +86,7 @@ export default function AProposPage() {
             </div>
 
             <div className="order-1 md:order-2 relative h-[500px] rounded-xl overflow-hidden">
-              <Image src="/placeholder.svg?height=1000&width=800" alt="Notre évolution" fill className="object-cover" />
+              <Image src="/equipe.jpg" alt="Notre évolution" fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B1C] to-transparent opacity-60"></div>
             </div>
           </div>
@@ -159,17 +159,17 @@ export default function AProposPage() {
               >
                 <div className="relative h-64">
                   <Image
-                    src={`/placeholder.svg?height=400&width=300`}
+                    src={`/mory.jpg`}
                     alt={`Membre de l'équipe ${member}`}
                     fill
                     className="object-cover"
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1">Nom Prénom</h3>
-                  <p className="text-[#037483] mb-4">Poste / Fonction</p>
+                  <h3 className="text-xl font-semibold mb-1">Mory</h3>
+                  <p className="text-[#037483] mb-4">CEO</p>
                   <p className="text-gray-300 text-sm mb-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.
+                    je suis un developpeur full stack et je suis passionné par la creation de valeur pour les entreprises et les particuliers.
                   </p>
                   <div className="flex space-x-3">{/* Social media icons would go here */}</div>
                 </div>

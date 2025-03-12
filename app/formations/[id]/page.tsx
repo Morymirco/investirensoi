@@ -11,26 +11,28 @@ import Image from "next/image"
 import Link from "next/link"
 import React, { useRef, useState } from "react"
 import {
-    FaAward,
-    FaCertificate,
-    FaCheck,
-    FaChevronDown,
-    FaChevronUp,
-    FaGraduationCap,
-    FaLaptop,
-    FaPlay,
-    FaRegBookmark,
-    FaRegCalendarAlt,
-    FaRegClock,
-    FaRegFileAlt,
-    FaRegLightbulb,
-    FaRegQuestionCircle,
-    FaRegStar,
-    FaShare,
-    FaStar,
-    FaStarHalfAlt,
-    FaUser,
-    FaUserGraduate,
+  FaAward,
+  FaCertificate,
+  FaCheck,
+  FaChevronDown,
+  FaChevronUp,
+  FaCoffee,
+  FaGraduationCap,
+  FaLaptop,
+  FaMapMarkerAlt,
+  FaPlay,
+  FaRegBookmark,
+  FaRegCalendarAlt,
+  FaRegClock,
+  FaRegFileAlt,
+  FaRegLightbulb,
+  FaRegStar,
+  FaShare,
+  FaStar,
+  FaStarHalfAlt,
+  FaUser,
+  FaUserGraduate,
+  FaUsers
 } from "react-icons/fa"
 
 // Star rating component
@@ -263,9 +265,9 @@ const RelatedCourseCard = ({ course }: { course: any }) => (
 
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          <span className="text-lg font-bold text-white">{course.price} €</span>
+          <span className="text-lg font-bold text-white">{course.price} GNF</span>
           {course.originalPrice && (
-            <span className="text-gray-400 line-through ml-2 text-sm">{course.originalPrice} €</span>
+            <span className="text-gray-400 line-through ml-2 text-sm">{course.originalPrice} GNF</span>
           )}
         </div>
       </div>
@@ -314,41 +316,44 @@ export default function CourseDetailPage() {
     rating: 4.8,
     reviewCount: 1245,
     students: 12500,
-    price: 89.99,
-    originalPrice: 129.99,
+    price: "2 500 000",
+    originalPrice: "3 000 000",
     discount: 30,
     duration: "42h total",
     level: "Intermédiaire",
-    format: "En ligne",
+    format: "Présentiel",
     lastUpdated: "Avril 2025",
     language: "Français",
     categories: ["Développement Web", "JavaScript", "React", "Node.js"],
     isBestseller: true,
-    image: "/placeholder.svg",
+    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
     previewVideo: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    location: "Conakry, Guinée",
+    nextSession: "15-17 Mai 2024",
+    maxParticipants: 15,
     whatYouWillLearn: [
-      "Créer des interfaces utilisateur modernes avec React et des API RESTful avec Node.js",
-      "Maîtriser JavaScript ES6+ et comprendre les concepts avancés comme les promesses et async/await",
-      "Travailler avec des bases de données MongoDB et comprendre les principes de conception NoSQL",
-      "Mettre en place l'authentification et l'autorisation des utilisateurs avec JWT",
-      "Déployer des applications fullstack sur des plateformes cloud comme Vercel et Heroku",
-      "Utiliser des outils modernes comme Webpack, Git, et les tests automatisés",
-      "Créer des applications web réactives et adaptées aux mobiles avec des frameworks CSS modernes",
-      "Comprendre les principes de conception d'API et les meilleures pratiques de développement web",
+      "Maîtriser les concepts fondamentaux de [sujet de la formation]",
+      "Appliquer les meilleures pratiques dans des cas concrets",
+      "Développer vos compétences à travers des exercices pratiques",
+      "Échanger avec des professionnels du secteur",
+      "Construire votre réseau professionnel",
+      "Obtenir des retours personnalisés sur vos projets",
+      "Accéder à des ressources exclusives",
+      "Bénéficier d'un suivi post-formation",
     ],
     requirements: [
-      "Connaissances de base en HTML, CSS et JavaScript",
-      "Compréhension des concepts de programmation fondamentaux",
-      "Un ordinateur avec accès à Internet",
-      "Aucune expérience préalable avec React ou Node.js n'est nécessaire",
+      "Aucun prérequis technique spécifique",
+      "Une expérience professionnelle de base est recommandée",
+      "Ordinateur portable (si nécessaire pour la formation)",
+      "Motivation à apprendre et à participer activement",
     ],
     includes: [
-      { icon: FaRegClock, text: "42 heures de vidéo à la demande" },
-      { icon: FaRegFileAlt, text: "85 articles et ressources téléchargeables" },
-      { icon: FaRegLightbulb, text: "120 exercices pratiques" },
-      { icon: FaCertificate, text: "Certificat d'achèvement" },
-      { icon: FaLaptop, text: "Accès à vie au contenu" },
-      { icon: FaRegQuestionCircle, text: "Support instructeur" },
+      { icon: FaRegClock, text: "21 heures de formation en présentiel" },
+      { icon: FaRegFileAlt, text: "Support de formation complet" },
+      { icon: FaRegLightbulb, text: "Exercices pratiques et études de cas" },
+      { icon: FaCertificate, text: "Certificat de participation" },
+      { icon: FaCoffee, text: "Pauses café et déjeuners inclus" },
+      { icon: FaUsers, text: "Networking avec les participants" },
     ],
     modules: [
       {
@@ -442,29 +447,24 @@ export default function CourseDetailPage() {
     ],
     faqs: [
       {
-        question: "Ce cours est-il adapté aux débutants ?",
-        answer:
-          "Oui, ce cours est conçu pour être accessible aux débutants ayant des connaissances de base en HTML, CSS et JavaScript. Nous commençons par les fondamentaux et progressons vers des concepts plus avancés, ce qui permet à chacun d'apprendre à son rythme.",
+        question: "Comment se déroule la formation en présentiel ?",
+        answer: "La formation se déroule sur 3 jours consécutifs, de 9h à 17h, avec des pauses régulières. Elle alterne entre théorie et pratique, avec de nombreux exercices et études de cas. Les déjeuners et pauses café sont inclus, permettant des moments d'échange informels.",
       },
       {
-        question: "Combien de temps faut-il pour terminer ce cours ?",
-        answer:
-          "Le cours contient environ 42 heures de contenu vidéo, mais le temps nécessaire pour le terminer dépend de votre rythme d'apprentissage et du temps que vous consacrez aux exercices pratiques. En moyenne, les étudiants terminent le cours en 2 à 3 mois en y consacrant quelques heures par semaine.",
+        question: "Où se déroule exactement la formation ?",
+        answer: "La formation a lieu à Conakry, dans nos locaux équipés et climatisés. L'adresse exacte et le plan d'accès vous seront communiqués après votre inscription.",
       },
       {
-        question: "Les projets présentés dans ce cours peuvent-ils être utilisés dans mon portfolio ?",
-        answer:
-          "Absolument ! Les projets que vous développerez dans ce cours sont conçus pour être impressionnants et démontrer vos compétences. Nous vous encourageons à les personnaliser et à les inclure dans votre portfolio pour montrer vos capacités aux employeurs potentiels.",
+        question: "Que dois-je apporter le jour de la formation ?",
+        answer: "Nous vous recommandons d'apporter un ordinateur portable si nécessaire pour la formation. Tout le matériel pédagogique est fourni, y compris les supports de cours.",
       },
       {
-        question: "Y a-t-il un support disponible si je rencontre des difficultés ?",
-        answer:
-          "Oui, vous pouvez poser des questions dans la section commentaires de chaque leçon, et l'instructeur ou l'équipe de support vous répondra généralement dans les 24-48 heures. De plus, il y a une communauté active d'étudiants qui s'entraident.",
+        question: "Comment s'organise le déjeuner ?",
+        answer: "Les déjeuners sont inclus dans le prix de la formation et sont pris en commun. C'est un moment privilégié pour échanger avec le formateur et les autres participants.",
       },
       {
-        question: "Les technologies enseignées dans ce cours sont-elles à jour ?",
-        answer:
-          "Oui, ce cours est régulièrement mis à jour pour refléter les dernières versions de React, Node.js et autres technologies. La dernière mise à jour majeure a été effectuée en avril 2025, et nous continuons à ajouter du contenu et à actualiser les leçons existantes.",
+        question: "Y a-t-il un suivi après la formation ?",
+        answer: "Oui, nous proposons un suivi post-formation incluant un accès à nos ressources en ligne et la possibilité de poser des questions au formateur pendant 30 jours.",
       },
     ],
     relatedCourses: [
@@ -473,8 +473,8 @@ export default function CourseDetailPage() {
         title: "React Avancé: Hooks, Context API et Redux",
         rating: 4.7,
         reviewCount: 856,
-        price: 69.99,
-        originalPrice: 99.99,
+        price: "2 000 000",
+        originalPrice: "2 500 000",
         discount: 30,
         image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
       },
@@ -483,8 +483,8 @@ export default function CourseDetailPage() {
         title: "Node.js: API RESTful et Microservices",
         rating: 4.9,
         reviewCount: 1023,
-        price: 74.99,
-        originalPrice: 109.99,
+        price: "2 200 000",
+        originalPrice: "2 800 000",
         discount: 30,
         image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
       },
@@ -493,8 +493,8 @@ export default function CourseDetailPage() {
         title: "MongoDB pour développeurs JavaScript",
         rating: 4.6,
         reviewCount: 742,
-        price: 59.99,
-        originalPrice: 79.99,
+        price: "1 800 000",
+        originalPrice: "2 300 000",
         discount: 25,
         image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
       },
@@ -542,6 +542,38 @@ export default function CourseDetailPage() {
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">{course.title}</h1>
 
                 <p className="text-gray-300 text-lg mb-6">{course.description}</p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                  <div className="bg-[#151627] p-4 rounded-lg">
+                    <div className="flex items-center text-gray-300">
+                      <FaRegCalendarAlt className="mr-2 text-[#048B9A]" />
+                      <div>
+                        <p className="text-sm">Prochaine session</p>
+                        <p className="font-medium">{course.nextSession}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#151627] p-4 rounded-lg">
+                    <div className="flex items-center text-gray-300">
+                      <FaMapMarkerAlt className="mr-2 text-[#048B9A]" />
+                      <div>
+                        <p className="text-sm">Lieu</p>
+                        <p className="font-medium">{course.location}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#151627] p-4 rounded-lg">
+                    <div className="flex items-center text-gray-300">
+                      <FaUsers className="mr-2 text-[#048B9A]" />
+                      <div>
+                        <p className="text-sm">Places disponibles</p>
+                        <p className="font-medium">{course.maxParticipants} participants max</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <div className="flex flex-wrap items-center gap-4 mb-6">
                   <div className="flex items-center">
@@ -625,8 +657,8 @@ export default function CourseDetailPage() {
 
                     <div className="mb-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-2xl font-bold text-white">{course.price} €</span>
-                        <span className="text-gray-400 line-through">{course.originalPrice} €</span>
+                        <span className="text-2xl font-bold text-white">{course.price} GNF</span>
+                        <span className="text-gray-400 line-through">{course.originalPrice} GNF</span>
                       </div>
                       <div className="flex items-center text-gray-300 mb-4">
                         <span className="text-red-500 font-medium">{course.discount}% de réduction</span>
@@ -694,36 +726,34 @@ export default function CourseDetailPage() {
 
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-2xl font-bold text-white">{course.price} €</span>
-                    <span className="text-gray-400 line-through">{course.originalPrice} €</span>
+                    <span className="text-2xl font-bold text-white">{course.price} GNF</span>
+                    {course.originalPrice && (
+                      <span className="text-gray-400 line-through">{course.originalPrice} GNF</span>
+                    )}
                   </div>
-                  <div className="flex items-center text-gray-300 mb-4">
-                    <span className="text-red-500 font-medium">{course.discount}% de réduction</span>
-                    <span className="mx-2">•</span>
-                    <span>Plus que 2 jours</span>
+                  <div className="flex flex-col text-gray-300 mb-4">
+                    <span className="text-red-500 font-medium mb-2">{course.discount}% de réduction</span>
+                    <span className="text-sm">Plus que {course.maxParticipants - 8} places disponibles</span>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <Button className="w-full bg-[#048B9A] hover:bg-[#037483] text-white text-lg py-6">S'inscrire</Button>
-                  <Button variant="outline" className="w-full border-gray-700 text-[#048B9A] hover:bg-[#151627] hover:text-white">
-                    Essayer gratuitement
+                  <Button 
+                    className="w-full bg-[#048B9A] hover:bg-[#037483] text-white text-lg py-6"
+                    onClick={() => window.location.href = `/formations/${course.id}/inscription`}
+                  >
+                    Réserver ma place
                   </Button>
+                  <p className="text-center text-gray-400 text-sm">
+                    Paiement sécurisé • Garantie satisfait ou remboursé
+                  </p>
                 </div>
 
-                <p className="text-center text-gray-400 text-sm mt-4 mb-6">Garantie de remboursement de 30 jours</p>
-
-                <div className="space-y-4">
-                  <h3 className="text-white font-medium mb-2">Ce cours inclut :</h3>
+                <div className="space-y-4 mt-6">
+                  <h3 className="text-white font-medium mb-2">Cette formation inclut :</h3>
                   {course.includes.map((item, index) => (
                     <div key={index} className="flex items-center text-gray-300">
-                      {React.isValidElement(item.icon) ? (
-                        item.icon
-                      ) : typeof item.icon === "function" ? (
-                        React.createElement(item.icon, { className: "text-gray-400 mr-3 w-5 h-5" })
-                      ) : (
-                        <FaRegFileAlt className="text-gray-400 mr-3 w-5 h-5" />
-                      )}
+                      {React.createElement(item.icon, { className: "text-[#048B9A] mr-3 w-5 h-5" })}
                       <span>{item.text}</span>
                     </div>
                   ))}
@@ -788,7 +818,7 @@ export default function CourseDetailPage() {
                   </div>
 
                   <div className="bg-[#151627] border border-gray-800 rounded-lg p-6 mb-8">
-                    <h2 className="text-xl font-semibold text-white mb-4">Ce que vous allez apprendre</h2>
+                    <h2 className="text-xl font-semibold text-white mb-4">Programme de la formation</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {course.whatYouWillLearn.map((item, index) => (
                         <div key={index} className="flex">

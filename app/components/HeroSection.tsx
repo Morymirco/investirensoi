@@ -55,7 +55,7 @@ export default function MindeoHero() {
       </div>
 
       {/* Chat bubble in bottom right */}
-      <div className="fixed bottom-6 right-6 z-50">
+      {/* <div className="fixed bottom-6 right-6 z-50">
         <div className="bg-[#ff5a5f] text-white p-4 rounded-full shadow-lg cursor-pointer hover:bg-[#ff4146] transition-colors">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -70,8 +70,8 @@ export default function MindeoHero() {
           >
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </section>
   )
 }

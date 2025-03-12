@@ -668,12 +668,12 @@ export default function CourseDetailPage() {
                     </div>
 
                     <div className="space-y-3">
-                      <Button className="w-full bg-[#048B9A] hover:bg-[#037483] text-white text-lg py-6">
-                        S'inscrire
+                      <Button className="w-full bg-[#048B9A] hover:bg-[#037483] text-white text-lg py-6" onClick={() => window.location.href = `/formations/${course.id}/inscription`}>
+                        Réserver ma place
                       </Button>
-                      <Button variant="outline" className="w-full border-gray-700 text-[#048B9A] hover:bg-[#151627] hover:text-white">
+                      {/* <Button variant="outline" className="w-full border-gray-700 text-[#048B9A] hover:bg-[#151627] hover:text-white">
                         Essayer gratuitement
-                      </Button>
+                      </Button> */}
                     </div>
 
                     <p className="text-center text-gray-400 text-sm mt-4">Garantie de remboursement de 30 jours</p>

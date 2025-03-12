@@ -154,8 +154,10 @@ export async function POST(request: Request) {
 
     try {
       // En mode test, on envoie tout à l'adresse de test
-      const toEmail = IS_PRODUCTION ? 'contact@investirensoi.com' : TEST_EMAIL;
+      // const toEmail = IS_PRODUCTION ? 'contact@investirensoi.com' : TEST_EMAIL;
+      const toEmail = 'morykoulibaly996@gmail.com'
       
+      console.log(toEmail)
       // Email à l'agence
       console.log('Sending email to agency...');
       const agencyEmailContent = `

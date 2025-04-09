@@ -8,7 +8,7 @@ import { collection, doc, getDoc, getDocs, query, where } from "firebase/firesto
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { use, useEffect, useRef, useState } from "react"
 import {
   FaCheck,
   FaChevronDown,
@@ -148,20 +148,23 @@ const RelatedCourseCard = ({ course }: { course: Formation }) => {
 }
 
 // Main component
-export default function CourseDetailPage({ params }: { params: { id: string } }) {
+export default function CourseDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [formation, setFormation] = useState<Formation | null>(null)
   const [relatedFormations, setRelatedFormations] = useState<Formation[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const courseContentRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
+  
+  // Résoudre la promesse des paramètres
+  const resolvedParams = use(params)
 
   // Récupération des données de la formation
   useEffect(() => {
     const fetchFormation = async () => {
       try {
         setLoading(true)
-        const formationRef = doc(db, "formations", params.id)
+        const formationRef = doc(db, "formations", resolvedParams.id)
         const formationSnap = await getDoc(formationRef)
         
         if (formationSnap.exists()) {
@@ -182,7 +185,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
           const querySnapshot = await getDocs(q)
           const similarFormations = querySnapshot.docs
             .map(doc => ({ id: doc.id, ...doc.data() } as Formation))
-            .filter(f => f.id !== params.id) // Exclure la formation actuelle
+            .filter(f => f.id !== resolvedParams.id) // Exclure la formation actuelle
             .slice(0, 3) // Limiter à 3 formations similaires
           
           setRelatedFormations(similarFormations)
@@ -199,7 +202,7 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
     }
 
     fetchFormation()
-  }, [params.id])
+  }, [resolvedParams.id])
 
   // Fonction pour faire défiler jusqu'au contenu du cours
   const scrollToCourseContent = () => {

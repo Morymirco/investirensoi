@@ -1,127 +1,175 @@
-import { Star } from "lucide-react"
+"use client"
 
-interface Course {
-  id: number
-  title: string
-  price: string
-  image: string
-  rating: number
-  category: string
+import { Button } from "@/components/ui/button";
+import { db } from '@/services/firestore';
+import { collection, getDocs, limit, query } from 'firebase/firestore';
+import { motion } from "framer-motion";
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { FaGraduationCap, FaRegClock } from "react-icons/fa";
+
+// Interface pour le type de formation
+interface Formation {
+  id: string;
+  titre: string;
+  description: string;
+  categorie: string;
+  nombreDeCours: number;
+  prix: number;
+  imageUrl: string;
+  duree: string;
+  niveau: string;
 }
 
-const courses: Course[] = [
-  {
-    id: 1,
-    title: "Devenez un expert en marketing digital",
-    price: "150.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    rating: 5,
-    category: "Marketing",
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
   },
-  {
-    id: 2,
-    title: "Cours complet de développeur WordPress",
-    price: "500.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    rating: 5,
-    category: "Development",
-  },
-  {
-    id: 3,
-    title: "Adobe Premiere Pro : Montage vidéo",
-    price: "250.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    rating: 5,
-    category: "Design",
-  },
-  {
-    id: 4,
-    title: "Créez votre site web avec HTML5 et CSS3 2024",
-    price: "200.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    rating: 5,
-    category: "Development",
-  },
-  {
-    id: 5,
-    title: "Échange de compétences essentielles Microsoft Office en ligne",
-    price: "150.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    rating: 5,
-    category: "Office",
-  },
-  {
-    id: 6,
-    title: "Administration réseau et dépannage",
-    price: "300.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/marketting.jpg",
-    rating: 5,
-    category: "IT",
-  },
-  {
-    id: 7,
-    title: "UI/UX Design pour le Web et le mobile",
-    price: "400.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    rating: 5,
-    category: "Design",
-  },
-  {
-    id: 8,
-    title: "DevOps et intégration continue",
-    price: "450.000 GNF",
-    image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    rating: 5,
-    category: "Development",
-  },
-]
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+}
 
 export default function FeaturedCourses() {
+  const [formations, setFormations] = useState<Formation[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  // Récupérer les formations depuis Firestore
+  useEffect(() => {
+    const fetchFormations = async () => {
+      try {
+        setLoading(true);
+        const formationsRef = collection(db, "formations");
+        
+        // Récupérer les 8 premières formations
+        const formationsQuery = query(
+          formationsRef,
+          limit(8)
+        );
+        
+        const querySnapshot = await getDocs(formationsQuery);
+        
+        const formationsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Formation[];
+        
+        setFormations(formationsData);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des formations:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFormations();
+  }, []);
+
+  // Rediriger vers la page de détail de la formation
+  const handleCourseClick = (id: string) => {
+    router.push(`/formations/${id}`);
+  };
+
   return (
     <section className="bg-[#000025] py-20">
-      {/* Use max-w classes to limit width and center content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Cours en ligne en vedette</h2>
           <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-            Les cours les plus demandés sur notre plateformes , les plus sollicites par les apprenants sont ci-dessous :
+            Les cours les plus demandés sur notre plateforme, les plus sollicités par les apprenants sont ci-dessous :
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {courses.map((course) => (
-            <div
-              key={course.id}
-              className="bg-white/10 border border-white/30 text-white rounded-2xl overflow-hidden transition-transform hover:scale-[1.02] border"
-            >
-              <div className="relative">
-                <img src={course.image || "/placeholder.svg"} alt={course.title} className="w-full h-48 object-cover" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  {/* <div className="flex gap-2">
-                    <img src="/placeholder.svg?height=30&width=100" alt="App Store" className="h-8 w-auto" />
-                    <img src="/placeholder.svg?height=30&width=100" alt="Google Play" className="h-8 w-auto" />
-                  </div> */}
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-white">Chargement des formations...</p>
+          </div>
+        ) : formations.length > 0 ? (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
+            {formations.map((formation) => (
+              <motion.div
+                key={formation.id}
+                variants={itemVariants}
+                className="bg-[#151627] rounded-xl overflow-hidden border border-gray-800 hover:border-[#048B9A] transition-all duration-300 hover:shadow-lg hover:shadow-[#048B9A]/10 flex flex-col h-full cursor-pointer"
+                onClick={() => handleCourseClick(formation.id)}
+              >
+                <div className="relative h-48">
+                  <Image 
+                    src={formation.imageUrl || "/placeholder.svg"} 
+                    alt={formation.titre} 
+                    fill 
+                    className="object-cover" 
+                  />
                 </div>
-              </div>
 
-              <div className="p-6">
-                <h3 className="text-[#00b67a] font-semibold text-xl mb-6 line-clamp-2 ">{course.title}</h3>
+                <div className="p-5 flex flex-col flex-grow">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-white line-clamp-2">{formation.titre}</h3>
+                  </div>
 
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-purple-500 font-bold">{course.price}</span>
-                  <div className="flex items-center">
-                    {[...Array(course.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                    ))}
+                  <div className="flex items-center mb-3">
+                    <div className="flex items-center text-gray-400">
+                      <FaRegClock className="mr-1" />
+                      <span className="text-sm">{formation.nombreDeCours} cours</span>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <span className="bg-[#1C1D33] text-gray-300 px-2 py-1 rounded-md text-xs">
+                      {formation.categorie}
+                    </span>
+                  </div>
+
+                  <p className="text-gray-300 mb-4 text-sm line-clamp-2 flex-grow">{formation.description}</p>
+
+                  <div className="flex flex-wrap gap-3 mb-4 text-sm">
+                    <div className="flex items-center text-gray-400">
+                      <FaRegClock className="mr-1" />
+                      <span>{formation.duree}</span>
+                    </div>
+                    <div className="flex items-center text-gray-400">
+                      <FaGraduationCap className="mr-1" />
+                      <span>{formation.niveau}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center mt-auto">
+                    <div className="flex items-center">
+                      <span className="text-xl font-bold text-white">{formation.prix.toLocaleString()} GNF</span>
+                    </div>
+                    <Button className="bg-[#048B9A] hover:bg-[#037483] text-white">S'inscrire</Button>
                   </div>
                 </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-white">Aucune formation disponible pour le moment.</p>
+          </div>
+        )}
 
-                <button className="w-full bg-[#cbcdff] hover:bg-[#50528f] hover:text-white text-indigo-900 font-medium py-2 rounded-full transition-colors text-[14px]">
-                  Inscrivez-vous maintenant
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="text-center mt-12">
+          <Button 
+            onClick={() => router.push('/formations')}
+            className="bg-[#048B9A] hover:bg-[#037483] text-white px-8 py-6 text-lg rounded-full"
+          >
+            Voir toutes les formations
+          </Button>
         </div>
       </div>
     </section>

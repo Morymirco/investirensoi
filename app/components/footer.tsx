@@ -1,12 +1,12 @@
-import { Input } from "@/components/ui/input"
 import { Mail, Phone } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Footer() {
   return (
     <footer className="bg-[#000025] pt-12 md:pt-16 pb-6 md:pb-8">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mb-12 md:mb-16">
           {/* Company Info */}
           <div className="space-y-4 md:space-y-6 flex flex-col items-center sm:items-start text-center sm:text-left">
             <div className="flex items-center space-x-2">
@@ -36,78 +36,66 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Services */}
+          {/* Pages */}
           <div className="text-center sm:text-left">
-            <h3 className="text-white text-lg md:text-xl font-semibold mb-4 md:mb-6">Services</h3>
+            <h3 className="text-white text-lg md:text-xl font-semibold mb-4 md:mb-6">Pages</h3>
             <ul className="space-y-2 md:space-y-4">
-              {[
-                "Apprentissage en ligne",
-                "Bootcamp",
-                "Séminaire en ligne",
-                "Certifications",
-                "Mentoring",
-                "Corporate Services",
-              ].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link href="/" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  Accueil
+                </Link>
+              </li>
+              <li>
+                <Link href="/formations" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  Formations
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/a-propos" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  À propos
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Entreprise */}
+          {/* Formations */}
           <div className="text-center sm:text-left">
-            <h3 className="text-white text-lg md:text-xl font-semibold mb-4 md:mb-6">Entreprise</h3>
+            <h3 className="text-white text-lg md:text-xl font-semibold mb-4 md:mb-6">Catégories</h3>
             <ul className="space-y-2 md:space-y-4">
-              {["À propos de nous", "Direction", "Carrières", "Article & News", "Mentions légales"].map((item) => (
-                <li key={item}>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link href="/formations?categorie=Business" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  Business
+                </Link>
+              </li>
+              <li>
+                <Link href="/formations?categorie=Développement" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  Développement
+                </Link>
+              </li>
+              <li>
+                <Link href="/formations?categorie=Marketing" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  Marketing
+                </Link>
+              </li>
+              <li>
+                <Link href="/formations?categorie=Design" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">
+                  Design
+                </Link>
+              </li>
             </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div className="text-center sm:text-left">
-            <h3 className="text-white text-lg md:text-xl font-semibold mb-4 md:mb-6">Newsletter</h3>
-            <p className="text-gray-400 mb-4 md:mb-6 text-sm md:text-base">
-              Inscrivez-vous à notre newsletter pour obtenir des informations mises à jour, des actualités et des
-              informations gratuites.
-            </p>
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-2">
-              <Input
-                type="email"
-                placeholder="Email"
-                className="bg-[#1A1F3D] border-gray-700 text-white placeholder:text-gray-500 text-sm md:text-base"
-              />
-              <button className="bg-[#cbcdff] hover:bg-[#50528f] hover:text-white text-indigo-900 px-4 md:px-6 py-2 rounded-lg flex items-center justify-center space-x-2 transition-colors text-sm md:text-base whitespace-nowrap">
-                <Mail className="w-4 h-4" />
-                <span>S&apos;inscrire</span>
-              </button>
-            </div>
           </div>
         </div>
 
-        {/* Mobile App Section */}
-        <div className="border-t border-gray-800 pt-6 md:pt-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6">
-            <p className="text-white text-base md:text-lg lg:text-xl lg:max-w-2xl text-center lg:text-left mb-4 lg:mb-0">
-              Prêt à apprendre en déplacement ? Téléchargez notre cours en ligne sur application mobile et commencez à
-              apprendre à tout moment et en tout lieu !
-            </p>
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 space-x-0 sm:space-x-4 items-center justify-center sm:justify-start w-full sm:w-auto">
-              <a href="#" className="transition-transform hover:scale-105">
-                <img src="/Google-Play.png.webp" alt="Get it on Google Play" className="h-10 md:h-12" />
-              </a>
-              <a href="#" className="transition-transform hover:scale-105">
-                <img src="/App-Store.png" alt="Download on the App Store" className="h-10 md:h-12" />
-              </a>
-            </div>
-          </div>
+        {/* Copyright */}
+        <div className="border-t border-gray-800 pt-6 md:pt-8 text-center">
+          <p className="text-gray-400 text-sm md:text-base">
+            © {new Date().getFullYear()} Investir En Soi. Tous droits réservés.
+          </p>
         </div>
       </div>
     </footer>

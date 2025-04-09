@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { db } from "@/services/firestore"
 import { doc, getDoc, updateDoc } from "firebase/firestore"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, use } from "react"
 import { FaPlus, FaTrash } from "react-icons/fa"
 import { Toaster, toast } from "sonner"
 
@@ -38,7 +38,7 @@ interface FormationData {
   chapitres: Chapitre[]
 }
 
-export default function EditFormationPage({ params }: { params: { id: string } }) {
+export default function EditFormationPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -57,10 +57,12 @@ export default function EditFormationPage({ params }: { params: { id: string } }
     chapitres: []
   })
 
+  const resolvedParams = use(params)
+
   useEffect(() => {
     const fetchFormation = async () => {
       try {
-        const formationDoc = await getDoc(doc(db, "formations", params.id))
+        const formationDoc = await getDoc(doc(db, "formations", resolvedParams.id))
         if (formationDoc.exists()) {
           setFormationData(formationDoc.data() as FormationData)
         } else {
@@ -76,7 +78,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
     }
 
     fetchFormation()
-  }, [params.id, router])
+  }, [resolvedParams.id, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -89,7 +91,7 @@ export default function EditFormationPage({ params }: { params: { id: string } }
       }
 
       // Mise à jour de la formation dans Firestore
-      await updateDoc(doc(db, "formations", params.id), formationData)
+      await updateDoc(doc(db, "formations", resolvedParams.id), formationData)
 
       toast.success("Formation mise à jour avec succès")
       router.push("/admin")

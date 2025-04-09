@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-
+// images.unsplash.com
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'via.assets.so',
 
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
       {
         protocol: 'https',
@@ -30,7 +34,7 @@ const nextConfig: NextConfig = {
         hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
       },  
     ],
-    domains: ['via.assets.so', 'via.placeholder.com', 'dev-geniusclass2.pantheonsite.io', 'storyset.com', 'hebbkx1anhila5yf.public.blob.vercel-storage.com'],
+    domains: ['via.assets.so', 'images.unsplash.com', 'via.placeholder.com', 'dev-geniusclass2.pantheonsite.io', 'storyset.com', 'hebbkx1anhila5yf.public.blob.vercel-storage.com'],
   },
   /* config options here */
 };

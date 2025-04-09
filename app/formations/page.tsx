@@ -8,21 +8,21 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Slider } from "@/components/ui/slider"
+import { db } from "@/services/firestore"
+import { collection, getDocs, query } from "firebase/firestore"
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   FaChevronLeft,
   FaChevronRight,
   FaFilter,
   FaGraduationCap,
-  FaLaptop,
   FaRegClock,
   FaSearch,
   FaStar,
-  FaTimes,
-  FaUser,
+  FaTimes
 } from "react-icons/fa"
 
 // Fix the filters state type definition by adding proper TypeScript interfaces
@@ -35,6 +35,21 @@ interface FilterState {
   freeOnly: boolean
   durations: string[]
   minRating: number
+}
+
+// Définition du type Formation
+interface Formation {
+  id: string;
+  titre: string;
+  description: string;
+  categorie: string;
+  nombreDeCours: number;
+  prix: number;
+  imageUrl: string;
+  duree: string;
+  niveau: string;
+  chapitres: any[]; // Vous pouvez définir une interface plus précise si nécessaire
+  cree_le: any; // Timestamp Firestore
 }
 
 // Animation variants
@@ -54,74 +69,52 @@ const itemVariants = {
 }
 
 // Course card component
-const CourseCard = ({ course }: { course: any }) => {
+const CourseCard = ({ course }: { course: Formation }) => {
   const router = useRouter()
   return (
     <motion.div
       onClick={() => router.push(`/formations/${course.id}`)}
       variants={itemVariants}
-      className="bg-[#151627] rounded-xl overflow-hidden border border-gray-800 hover:border-[#048B9A] transition-all duration-300 hover:shadow-lg hover:shadow-[#048B9A]/10"
+      className="bg-[#151627] rounded-xl overflow-hidden border border-gray-800 hover:border-[#048B9A] transition-all duration-300 hover:shadow-lg hover:shadow-[#048B9A]/10 flex flex-col h-full"
     >
       <div className="relative h-48">
-        <Image src={course.image || "/placeholder.svg"} alt={course.title} fill className="object-cover" />
-        {course.isBestseller && (
-          <div className="absolute top-3 left-3">
-            <Badge className="bg-amber-500 text-white hover:bg-amber-600">Bestseller</Badge>
-          </div>
-        )}
-        {course.discount > 0 && (
-          <div className="absolute top-3 right-3">
-            <Badge className="bg-red-500 text-white hover:bg-red-600">-{course.discount}%</Badge>
-          </div>
-        )}
+        <Image src={course.imageUrl || "/placeholder.svg"} alt={course.titre} fill className="object-cover" />
       </div>
 
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-2">
-          <h3 className="text-lg font-semibold text-white line-clamp-2">{course.title}</h3>
+          <h3 className="text-lg font-semibold text-white line-clamp-2">{course.titre}</h3>
         </div>
 
         <div className="flex items-center mb-3">
-          <div className="flex items-center mr-3">
-            <FaStar className="text-yellow-400 mr-1" />
-            <span className="text-white">{course.rating}</span>
-            <span className="text-gray-400 ml-1">({course.reviewCount})</span>
-          </div>
           <div className="flex items-center text-gray-400">
-            <FaUser className="mr-1" />
-            <span className="text-sm">{course.students} étudiants</span>
+            <FaRegClock className="mr-1" />
+            <span className="text-sm">{course.nombreDeCours} cours</span>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-3">
-          {course.categories.map((category: string, index: number) => (
-            <Badge key={index} variant="outline" className="border-gray-700 text-gray-300">
-              {category}
-            </Badge>
-          ))}
+          <Badge variant="outline" className="border-gray-700 text-gray-300">
+            {course.categorie}
+          </Badge>
         </div>
 
-        <p className="text-gray-300 mb-4 text-sm line-clamp-2">{course.description}</p>
+        <p className="text-gray-300 mb-4 text-sm line-clamp-2 flex-grow">{course.description}</p>
 
         <div className="flex flex-wrap gap-3 mb-4 text-sm">
           <div className="flex items-center text-gray-400">
             <FaRegClock className="mr-1" />
-            <span>{course.duration}</span>
+            <span>{course.duree}</span>
           </div>
           <div className="flex items-center text-gray-400">
             <FaGraduationCap className="mr-1" />
-            <span>{course.level}</span>
-          </div>
-          <div className="flex items-center text-gray-400">
-            <FaLaptop className="mr-1" />
-            <span>{course.format}</span>
+            <span>{course.niveau}</span>
           </div>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-auto">
           <div className="flex items-center">
-            <span className="text-xl font-bold text-white">{course.price} €</span>
-            {course.originalPrice && <span className="text-gray-400 line-through ml-2">{course.originalPrice} €</span>}
+            <span className="text-xl font-bold text-white">{course.prix.toLocaleString()} GNF</span>
           </div>
           <Button className="bg-[#048B9A] hover:bg-[#037483] text-white">S'inscrire</Button>
         </div>
@@ -138,6 +131,8 @@ const FilterSidebar = ({
   setFilters,
   applyFilters,
   clearFilters,
+  categories,
+  niveaux,
 }: {
   isOpen: boolean
   onClose: () => void
@@ -145,6 +140,8 @@ const FilterSidebar = ({
   setFilters: (filters: FilterState) => void
   applyFilters: () => void
   clearFilters: () => void
+  categories: string[]
+  niveaux: string[]
 }) => {
   const sidebarVariants = {
     hidden: { x: -300, opacity: 0 },
@@ -193,7 +190,7 @@ const FilterSidebar = ({
           <div>
             <h3 className="text-white font-medium mb-3">Catégories</h3>
             <div className="space-y-2">
-              {["Développement Web", "Business", "Design", "Marketing", "Langues", "Informatique"].map((category) => (
+              {categories.map((category) => (
                 <div key={category} className="flex items-center">
                   <Checkbox
                     id={`category-${category}`}
@@ -211,7 +208,7 @@ const FilterSidebar = ({
                         })
                       }
                     }}
-                    className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#048B9A]"
+                    className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#000000]"
                   />
                   <Label htmlFor={`category-${category}`} className="ml-2 text-gray-300 text-sm">
                     {category}
@@ -227,7 +224,7 @@ const FilterSidebar = ({
           <div>
             <h3 className="text-white font-medium mb-3">Niveau</h3>
             <div className="space-y-2">
-              {["Débutant", "Intermédiaire", "Avancé", "Tous niveaux"].map((level) => (
+              {niveaux.map((level) => (
                 <div key={level} className="flex items-center">
                   <Checkbox
                     id={`level-${level}`}
@@ -245,7 +242,7 @@ const FilterSidebar = ({
                         })
                       }
                     }}
-                    className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#048B9A]"
+                    className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#000000]"
                   />
                   <Label htmlFor={`level-${level}`} className="ml-2 text-gray-300 text-sm">
                     {level}
@@ -263,8 +260,8 @@ const FilterSidebar = ({
             <div className="space-y-4">
               <Slider
                 defaultValue={[filters.priceRange[1]]}
-                max={500}
-                step={10}
+                max={5000000}
+                step={100000}
                 onValueChange={(value) => {
                   setFilters({
                     ...filters,
@@ -274,8 +271,8 @@ const FilterSidebar = ({
                 className="mt-6"
               />
               <div className="flex justify-between text-sm text-gray-400">
-                <span>0 €</span>
-                <span>Max: {filters.priceRange[1]} €</span>
+                <span>0 GNF</span>
+                <span>Max: {filters.priceRange[1].toLocaleString()} GNF</span>
               </div>
               <div className="flex items-center">
                 <Checkbox
@@ -287,85 +284,12 @@ const FilterSidebar = ({
                       freeOnly: !!checked,
                     })
                   }}
-                  className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#048B9A]"
+                  className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#000000]"
                 />
                 <Label htmlFor="free-courses" className="ml-2 text-gray-300 text-sm">
                   Cours gratuits uniquement
                 </Label>
               </div>
-            </div>
-          </div>
-
-          <Separator className="bg-gray-800" />
-
-          {/* Duration */}
-          <div>
-            <h3 className="text-white font-medium mb-3">Durée</h3>
-            <div className="space-y-2">
-              {[
-                { label: "Moins de 3 heures", value: "short" },
-                { label: "3-6 heures", value: "medium" },
-                { label: "6-12 heures", value: "long" },
-                { label: "Plus de 12 heures", value: "very-long" },
-              ].map((duration) => (
-                <div key={duration.value} className="flex items-center">
-                  <Checkbox
-                    id={`duration-${duration.value}`}
-                    checked={filters.durations.includes(duration.value)}
-                    onCheckedChange={(checked) => {
-                      if (checked) {
-                        setFilters({
-                          ...filters,
-                          durations: [...filters.durations, duration.value],
-                        })
-                      } else {
-                        setFilters({
-                          ...filters,
-                          durations: filters.durations.filter((d: string) => d !== duration.value),
-                        })
-                      }
-                    }}
-                    className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#048B9A]"
-                  />
-                  <Label htmlFor={`duration-${duration.value}`} className="ml-2 text-gray-300 text-sm">
-                    {duration.label}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <Separator className="bg-gray-800" />
-
-          {/* Rating */}
-          <div>
-            <h3 className="text-white font-medium mb-3">Évaluation</h3>
-            <div className="space-y-2">
-              {[4.5, 4.0, 3.5, 3.0].map((rating) => (
-                <div key={rating} className="flex items-center">
-                  <Checkbox
-                    id={`rating-${rating}`}
-                    checked={filters.minRating === rating}
-                    onCheckedChange={(checked) => {
-                      if (checked) {
-                        setFilters({
-                          ...filters,
-                          minRating: rating,
-                        })
-                      } else if (filters.minRating === rating) {
-                        setFilters({
-                          ...filters,
-                          minRating: 0,
-                        })
-                      }
-                    }}
-                    className="border-gray-700 data-[state=checked]:bg-[#048B9A] data-[state=checked]:border-[#048B9A]"
-                  />
-                  <Label htmlFor={`rating-${rating}`} className="ml-2 text-gray-300 text-sm flex items-center">
-                    {rating}+ <FaStar className="text-yellow-400 ml-1" />
-                  </Label>
-                </div>
-              ))}
             </div>
           </div>
 
@@ -411,203 +335,78 @@ export default function FormationsPage() {
     minRating: 0,
   })
 
-  // Sample data for courses
-  const courses = [
-    {
-      id: 1,
-      title: "Développement Web Fullstack avec React et Node.js",
-      description: "Apprenez à créer des applications web complètes avec les technologies modernes React et Node.js.",
-      instructor: "Marie Dupont",
-      rating: 4.8,
-      reviewCount: 1245,
-      students: 12500,
-      price: 89.99,
-      originalPrice: 129.99,
-      discount: 30,
-      duration: "42h total",
-      level: "Intermédiaire",
-      format: "En ligne",
-      categories: ["Développement Web", "JavaScript"],
-      isBestseller: true,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 2,
-      title: "UX/UI Design: Créez des interfaces utilisateur exceptionnelles",
-      description:
-        "Maîtrisez les principes du design d'interface et de l'expérience utilisateur pour créer des produits numériques attrayants.",
-      instructor: "Thomas Martin",
-      rating: 4.7,
-      reviewCount: 856,
-      students: 8900,
-      price: 69.99,
-      originalPrice: 99.99,
-      discount: 30,
-      duration: "28h total",
-      level: "Tous niveaux",
-      format: "En ligne",
-      categories: ["Design", "UX/UI"],
-      isBestseller: false,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 3,
-      title: "Marketing Digital: Stratégies avancées pour 2025",
-      description:
-        "Découvrez les dernières stratégies de marketing digital pour développer votre présence en ligne et augmenter vos conversions.",
-      instructor: "Sophie Leclerc",
-      rating: 4.9,
-      reviewCount: 1023,
-      students: 15600,
-      price: 94.99,
-      originalPrice: 149.99,
-      discount: 35,
-      duration: "36h total",
-      level: "Avancé",
-      format: "En ligne",
-      categories: ["Marketing", "Business"],
-      isBestseller: true,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 4,
-      title: "Python pour la Data Science et le Machine Learning",
-      description:
-        "Maîtrisez Python et ses bibliothèques pour l'analyse de données, la visualisation et les algorithmes de machine learning.",
-      instructor: "Alexandre Dubois",
-      rating: 4.8,
-      reviewCount: 1578,
-      students: 18900,
-      price: 84.99,
-      originalPrice: 119.99,
-      discount: 25,
-      duration: "48h total",
-      level: "Intermédiaire",
-      format: "En ligne",
-      categories: ["Informatique", "Data Science"],
-      isBestseller: true,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 5,
-      title: "Anglais des affaires: Communiquez avec confiance",
-      description:
-        "Améliorez votre anglais professionnel pour exceller dans un environnement de travail international.",
-      instructor: "Emma Wilson",
-      rating: 4.6,
-      reviewCount: 742,
-      students: 6800,
-      price: 59.99,
-      originalPrice: 79.99,
-      discount: 25,
-      duration: "24h total",
-      level: "Débutant",
-      format: "En ligne",
-      categories: ["Langues", "Business"],
-      isBestseller: false,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 6,
-      title: "Photographie professionnelle: De débutant à expert",
-      description: "Apprenez les techniques de photographie professionnelle, de la composition à la post-production.",
-      instructor: "Lucas Moreau",
-      rating: 4.7,
-      reviewCount: 925,
-      students: 7400,
-      price: 74.99,
-      originalPrice: 99.99,
-      discount: 25,
-      duration: "32h total",
-      level: "Tous niveaux",
-      format: "En ligne",
-      categories: ["Design", "Photographie"],
-      isBestseller: false,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 7,
-      title: "Introduction à la Blockchain et aux Cryptomonnaies",
-      description: "Comprendre les fondamentaux de la technologie blockchain et son impact sur l'économie mondiale.",
-      instructor: "Nicolas Petit",
-      rating: 4.5,
-      reviewCount: 612,
-      students: 5200,
-      price: 64.99,
-      originalPrice: 89.99,
-      discount: 25,
-      duration: "18h total",
-      level: "Débutant",
-      format: "En ligne",
-      categories: ["Business", "Technologie"],
-      isBestseller: false,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 8,
-      title: "Gestion de projet agile avec Scrum et Kanban",
-      description:
-        "Maîtrisez les méthodologies agiles pour gérer efficacement vos projets et augmenter la productivité de votre équipe.",
-      instructor: "Claire Dubois",
-      rating: 4.8,
-      reviewCount: 845,
-      students: 9300,
-      price: 79.99,
-      originalPrice: 109.99,
-      discount: 25,
-      duration: "26h total",
-      level: "Intermédiaire",
-      format: "En ligne",
-      categories: ["Business", "Management"],
-      isBestseller: true,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-    {
-      id: 9,
-      title: "Développement d'applications mobiles avec Flutter",
-      description: "Créez des applications mobiles multiplateformes avec Flutter et Dart pour iOS et Android.",
-      instructor: "Julien Leroy",
-      rating: 4.7,
-      reviewCount: 732,
-      students: 6100,
-      price: 89.99,
-      originalPrice: 129.99,
-      discount: 30,
-      duration: "38h total",
-      level: "Intermédiaire",
-      format: "En ligne",
-      categories: ["Développement Web", "Mobile"],
-      isBestseller: false,
-      image: "https://dev-geniusclass2.pantheonsite.io/wp-content/uploads/2024/04/affichedesign.jpg.webp",
-    },
-  ]
+  // État pour stocker les formations récupérées de Firestore
+  const [formations, setFormations] = useState<Formation[]>([])
+  const [loading, setLoading] = useState(true)
+
+  // Récupération des formations depuis Firestore
+  useEffect(() => {
+    const fetchFormations = async () => {
+      try {
+        setLoading(true)
+        const formationsRef = collection(db, "formations")
+        
+        // Récupérer les formations sans tri spécifique
+        const formationsQuery = query(formationsRef)
+        const querySnapshot = await getDocs(formationsQuery)
+        
+        // Afficher les données brutes pour chaque document
+        console.log("=== DONNÉES BRUTES DES FORMATIONS ===");
+        querySnapshot.docs.forEach((doc, index) => {
+          console.log(`Formation ${index + 1} (ID: ${doc.id}):`, doc.data());
+        });
+        
+        const formationsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Formation[]
+
+        console.log("=== TABLEAU COMPLET DES FORMATIONS ===");
+        console.log(formationsData);
+        
+        // Afficher la structure du premier document pour référence
+        if (formationsData.length > 0) {
+          console.log("=== STRUCTURE DU PREMIER DOCUMENT ===");
+          console.log("Clés disponibles:", Object.keys(formationsData[0]));
+          console.log("Exemple de formation:", formationsData[0]);
+        }
+        
+        setFormations(formationsData)
+      } catch (error) {
+        console.error("Erreur lors de la récupération des formations:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchFormations()
+  }, [])
 
   // Filter and sort courses
   const filterCourses = () => {
-    return courses
+    if (loading) return []
+    
+    return formations
       .filter((course) => {
         // Search term filter
         const matchesSearch =
-          course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          course.description.toLowerCase().includes(searchTerm.toLowerCase())
+          course.titre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          course.description?.toLowerCase().includes(searchTerm.toLowerCase())
 
         // Category filter
         const matchesCategory =
           appliedFilters.categories.length === 0 ||
-          course.categories.some((cat: string) => appliedFilters.categories.includes(cat))
+          appliedFilters.categories.includes(course.categorie)
 
         // Level filter
-        const matchesLevel = appliedFilters.levels.length === 0 || appliedFilters.levels.includes(course.level)
+        const matchesLevel = appliedFilters.levels.length === 0 || appliedFilters.levels.includes(course.niveau)
 
         // Price filter
         const matchesPrice =
-          course.price >= appliedFilters.priceRange[0] && course.price <= appliedFilters.priceRange[1]
+          course.prix >= appliedFilters.priceRange[0] && course.prix <= appliedFilters.priceRange[1]
 
         // Free courses filter
-        const matchesFree = !appliedFilters.freeOnly || course.price === 0
-
-        // Rating filter
-        const matchesRating = course.rating >= appliedFilters.minRating
+        const matchesFree = !appliedFilters.freeOnly || course.prix === 0
 
         // Duration filter (simplified for demo)
         const matchesDuration = appliedFilters.durations.length === 0 || true
@@ -618,22 +417,23 @@ export default function FormationsPage() {
           matchesLevel &&
           matchesPrice &&
           matchesFree &&
-          matchesRating &&
           matchesDuration
         )
       })
       .sort((a, b) => {
         switch (sortBy) {
           case "popular":
-            return b.students - a.students
-          case "rating":
-            return b.rating - a.rating
+            return (b.nombreDeCours || 0) - (a.nombreDeCours || 0)
           case "newest":
-            return b.id - a.id
+            // Utiliser cree_le si disponible, sinon l'ID
+            if (a.cree_le && b.cree_le) {
+              return b.cree_le.seconds - a.cree_le.seconds
+            }
+            return b.id.localeCompare(a.id)
           case "price-low":
-            return a.price - b.price
+            return (a.prix || 0) - (b.prix || 0)
           case "price-high":
-            return b.price - a.price
+            return (b.prix || 0) - (a.prix || 0)
           default:
             return 0
         }
@@ -674,6 +474,10 @@ export default function FormationsPage() {
     setCurrentPage(page)
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
+
+  // Récupérer les catégories et niveaux uniques
+  const uniqueCategories = [...new Set(formations.map(formation => formation.categorie))] as string[];
+  const uniqueNiveaux = [...new Set(formations.map(formation => formation.niveau))] as string[];
 
   return (
     <div className="min-h-screen bg-[#0A0B1C]">
@@ -725,6 +529,8 @@ export default function FormationsPage() {
             setFilters={setFilters}
             applyFilters={applyFilters}
             clearFilters={clearFilters}
+            categories={uniqueCategories}
+            niveaux={uniqueNiveaux}
           />
 
           {/* Course listings */}
@@ -858,12 +664,21 @@ export default function FormationsPage() {
             )}
 
             {/* Courses grid */}
-            {currentCourses.length > 0 ? (
+            {loading ? (
+              <motion.div
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+                className="text-center py-12 bg-[#151627] rounded-lg"
+              >
+                <p className="text-gray-400 text-lg mb-4">Chargement des formations...</p>
+              </motion.div>
+            ) : currentCourses.length > 0 ? (
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-fr"
               >
                 {currentCourses.map((course) => (
                   <CourseCard key={course.id} course={course} />

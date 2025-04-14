@@ -5,6 +5,7 @@ import { db } from '@/services/firestore';
 import { collection, getDocs, limit, query } from 'firebase/firestore';
 import { motion } from "framer-motion";
 import Image from 'next/image';
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaGraduationCap, FaRegClock } from "react-icons/fa";
@@ -78,6 +79,8 @@ export default function FeaturedCourses() {
   const handleCourseClick = (id: string) => {
     router.push(`/formations/${id}`);
   };
+  
+
 
   return (
     <section className="bg-[#000025] py-20">
@@ -151,7 +154,15 @@ export default function FeaturedCourses() {
                     <div className="flex items-center">
                       <span className="text-xl font-bold text-white">{formation.prix.toLocaleString()} GNF</span>
                     </div>
-                    <Button className="bg-[#048B9A] hover:bg-[#037483] text-white">S'inscrire</Button>
+                    <Button 
+            className="bg-[#048B9A] hover:bg-[#037483] text-white" 
+            onClick={(e) => {
+              e.stopPropagation(); // Empêche la propagation de l'événement
+              router.push(`/formations/${formation.id}/inscription`);
+            }}
+          >
+            Réserver
+          </Button>
                   </div>
                 </div>
               </motion.div>

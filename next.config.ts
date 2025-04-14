@@ -3,6 +3,27 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      //awostzzbwsraxxsjdpnx.supabase.co
+      //tous les urls disponibles
+      // https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzPQ9oAPXAPUOT-Wv1TWev5eWMsjXHZ1wEaA&s
+      // https://lefinancierdafrique.com
+      // https://sunucode.com
+      {
+        protocol: 'https',
+        hostname: 'lefinancierdafrique.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'sunucode.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'localhost-academy.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'encrypted-tbn0.gstatic.com',
+      },
       {
         protocol: 'https',
         hostname: 'via.assets.so',
@@ -34,7 +55,7 @@ const nextConfig: NextConfig = {
         hostname: 'hebbkx1anhila5yf.public.blob.vercel-storage.com',
       },  
     ],
-    domains: ['via.assets.so', 'images.unsplash.com', 'via.placeholder.com', 'dev-geniusclass2.pantheonsite.io', 'storyset.com', 'hebbkx1anhila5yf.public.blob.vercel-storage.com'],
+    domains: ['via.assets.so', 'lefinancierdafrique.com', 'sunucode.com', 'encrypted-tbn0.gstatic.com', 'images.unsplash.com', 'awostzzbwsraxxsjdpnx.supabase.co', 'via.placeholder.com', 'dev-geniusclass2.pantheonsite.io', 'storyset.com', 'hebbkx1anhila5yf.public.blob.vercel-storage.com'],
   },
   /* config options here */
 };

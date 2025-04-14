@@ -24,6 +24,7 @@ import {
   FaStar,
   FaTimes
 } from "react-icons/fa"
+import { Skeleton } from "@/components/ui/skeleton"
 
 // Fix the filters state type definition by adding proper TypeScript interfaces
 
@@ -75,7 +76,7 @@ const CourseCard = ({ course }: { course: Formation }) => {
     <motion.div
       onClick={() => router.push(`/formations/${course.id}`)}
       variants={itemVariants}
-      className="bg-[#151627] rounded-xl overflow-hidden border border-gray-800 hover:border-[#048B9A] transition-all duration-300 hover:shadow-lg hover:shadow-[#048B9A]/10 flex flex-col h-full"
+      className="bg-[#151627] rounded-xl overflow-hidden border border-gray-800 hover:border-[#048B9A] transition-all duration-300 hover:shadow-lg hover:shadow-[#048B9A]/10 flex flex-col h-full cursor-pointer"
     >
       <div className="relative h-48">
         <Image src={course.imageUrl || "/placeholder.svg"} alt={course.titre} fill className="object-cover" />
@@ -116,12 +117,57 @@ const CourseCard = ({ course }: { course: Formation }) => {
           <div className="flex items-center">
             <span className="text-xl font-bold text-white">{course.prix.toLocaleString()} GNF</span>
           </div>
-          <Button className="bg-[#048B9A] hover:bg-[#037483] text-white">S'inscrire</Button>
+          <Button 
+            className="bg-[#048B9A] hover:bg-[#037483] text-white" 
+            onClick={(e) => {
+              e.stopPropagation(); // Empêche la propagation de l'événement
+              router.push(`/formations/${course.id}/inscription`);
+            }}
+          >
+            Réserver
+          </Button>
         </div>
       </div>
     </motion.div>
   )
 }
+
+// Skeleton loader component for course cards
+const CourseCardSkeleton = () => (
+  <div className="bg-[#151627] rounded-xl overflow-hidden border border-gray-800 flex flex-col h-full">
+    <div className="relative h-48">
+      <Skeleton className="h-full w-full" />
+    </div>
+    
+    <div className="p-5 flex flex-col flex-grow">
+      <div className="flex items-start justify-between mb-2">
+        <Skeleton className="h-6 w-3/4" />
+      </div>
+      
+      <div className="flex items-center mb-3">
+        <Skeleton className="h-4 w-4 mr-2 rounded-full" />
+        <Skeleton className="h-4 w-1/4" />
+      </div>
+      
+      <div className="flex flex-wrap gap-2 mb-3">
+        <Skeleton className="h-6 w-24 rounded-full" />
+      </div>
+      
+      <Skeleton className="h-4 w-full mb-2" />
+      <Skeleton className="h-4 w-5/6 mb-4" />
+      
+      <div className="flex flex-wrap gap-3 mb-4">
+        <Skeleton className="h-4 w-20" />
+        <Skeleton className="h-4 w-20" />
+      </div>
+      
+      <div className="flex justify-between items-center mt-auto">
+        <Skeleton className="h-6 w-24" />
+        <Skeleton className="h-10 w-24 rounded-md" />
+      </div>
+    </div>
+  </div>
+)
 
 // Filter sidebar component
 const FilterSidebar = ({
@@ -665,14 +711,11 @@ export default function FormationsPage() {
 
             {/* Courses grid */}
             {loading ? (
-              <motion.div
-                variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-                className="text-center py-12 bg-[#151627] rounded-lg"
-              >
-                <p className="text-gray-400 text-lg mb-4">Chargement des formations...</p>
-              </motion.div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-fr">
+                {[...Array(6)].map((_, index) => (
+                  <CourseCardSkeleton key={index} />
+                ))}
+              </div>
             ) : currentCourses.length > 0 ? (
               <motion.div
                 variants={containerVariants}

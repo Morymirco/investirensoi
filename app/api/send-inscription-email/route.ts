@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { db } from '@/services/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -108,6 +110,35 @@ const emailTemplate = (content: string) => `
           border-radius: 6px;
           color: #FFFFFF;
         }
+        .formation-card {
+          background-color: #151627;
+          border-radius: 8px;
+          padding: 15px;
+          margin: 20px 0;
+        }
+        .formation-title {
+          color: #FFFFFF;
+          font-size: 18px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        .formation-details {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 10px;
+        }
+        .formation-detail {
+          background-color: #1C1D33;
+          padding: 5px 10px;
+          border-radius: 4px;
+          font-size: 14px;
+        }
+        .formation-price {
+          font-size: 18px;
+          font-weight: bold;
+          color: #048B9A;
+        }
       </style>
     </head>
     <body>
@@ -153,6 +184,20 @@ export async function POST(request: Request) {
     }
 
     try {
+      // Récupérer les informations de la formation depuis Firestore
+      const formationRef = doc(db, "formations", formationId);
+      const formationSnap = await getDoc(formationRef);
+      
+      if (!formationSnap.exists()) {
+        return NextResponse.json(
+          { error: 'Formation non trouvée' },
+          { status: 404 }
+        );
+      }
+      
+      const formationData = formationSnap.data();
+      console.log('Formation data:', formationData);
+      
       // En mode test, on envoie tout à l'adresse de test
       // const toEmail = IS_PRODUCTION ? 'contact@investirensoi.com' : TEST_EMAIL;
       const toEmail = 'morykoulibaly996@gmail.com'
@@ -162,7 +207,16 @@ export async function POST(request: Request) {
       console.log('Sending email to agency...');
       const agencyEmailContent = `
         <h1 style="color: #FFFFFF;">Nouvelle demande d'inscription</h1>
-        <p style="color: #FFFFFF;">Formation ID: <span style="color: #FFFFFF;">${formationId}</span></p>
+        
+        <div class="formation-card">
+          <div class="formation-title">${formationData.titre}</div>
+          <div class="formation-details">
+            <span class="formation-detail">${formationData.categorie}</span>
+            <span class="formation-detail">${formationData.duree}</span>
+            <span class="formation-detail">${formationData.niveau}</span>
+          </div>
+          <div class="formation-price">${formationData.prix.toLocaleString()} GNF</div>
+        </div>
         
         <h2 style="margin-top: 30px; color: #FFFFFF;">Informations du candidat</h2>
         <ul style="color: #FFFFFF;">
@@ -188,7 +242,7 @@ export async function POST(request: Request) {
       const agencyEmailResult = await resend.emails.send({
         from: 'Investir En Soi <onboarding@resend.dev>',
         to: [toEmail],
-        subject: '[TEST] Nouvelle demande d\'inscription à une formation',
+        subject: `[TEST] Nouvelle inscription: ${formationData.titre}`,
         html: emailTemplate(agencyEmailContent),
       });
 
@@ -204,7 +258,19 @@ export async function POST(request: Request) {
         <h1 style="color: #FFFFFF;">Merci pour votre demande d'inscription !</h1>
         <p style="color: #FFFFFF;">Cher(e) <span style="color: #FFFFFF;">${prenom} ${nom}</span>,</p>
         
-        <p style="color: #FFFFFF;">Nous avons bien reçu votre demande d'inscription à notre formation. Notre équipe va l'examiner et vous contactera très prochainement pour finaliser votre inscription.</p>
+        <p style="color: #FFFFFF;">Nous avons bien reçu votre demande d'inscription à notre formation :</p>
+        
+        <div class="formation-card">
+          <div class="formation-title">${formationData.titre}</div>
+          <div class="formation-details">
+            <span class="formation-detail">${formationData.categorie}</span>
+            <span class="formation-detail">${formationData.duree}</span>
+            <span class="formation-detail">${formationData.niveau}</span>
+          </div>
+          <div class="formation-price">${formationData.prix.toLocaleString()} GNF</div>
+        </div>
+        
+        <p style="color: #FFFFFF;">Notre équipe va examiner votre demande et vous contactera très prochainement pour finaliser votre inscription.</p>
         
         <h2 style="margin-top: 30px; color: #FFFFFF;">Récapitulatif de vos informations</h2>
         <ul style="color: #FFFFFF;">
@@ -240,7 +306,7 @@ export async function POST(request: Request) {
       const candidateEmailResult = await resend.emails.send({
         from: 'Investir En Soi <onboarding@resend.dev>',
         to: [IS_PRODUCTION ? email : TEST_EMAIL],
-        subject: '[TEST] Confirmation de votre demande d\'inscription',
+        subject: `[TEST] Confirmation d'inscription: ${formationData.titre}`,
         html: emailTemplate(candidateEmailContent),
       });
 

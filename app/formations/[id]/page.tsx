@@ -19,6 +19,7 @@ import {
   FaRegClock,
   FaRegFileAlt
 } from "react-icons/fa"
+import { Skeleton } from "@/components/ui/skeleton"
 
 // Interface pour le type de formation
 interface Formation {
@@ -147,6 +148,121 @@ const RelatedCourseCard = ({ course }: { course: Formation }) => {
   )
 }
 
+// Skeleton loader pour la page détail
+const FormationDetailSkeleton = () => (
+  <div className="min-h-screen bg-[#0A0B1C]">
+    {/* Header skeleton */}
+    <div className="bg-gradient-to-r from-[#1C1D33] to-[#0A0B1C] py-12">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Course info skeleton */}
+          <div className="lg:w-2/3">
+            <div className="flex flex-wrap gap-2 mb-4">
+              <Skeleton className="h-6 w-24 rounded-full" />
+            </div>
+
+            <Skeleton className="h-10 w-3/4 mb-4" />
+            <Skeleton className="h-6 w-full mb-2" />
+            <Skeleton className="h-6 w-5/6 mb-6" />
+
+            <div className="flex flex-wrap gap-3 mb-6">
+              <Skeleton className="h-10 w-32 rounded-md" />
+              <Skeleton className="h-10 w-32 rounded-md" />
+              <Skeleton className="h-10 w-32 rounded-md" />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4 mb-6">
+              <Skeleton className="h-5 w-40" />
+            </div>
+
+            <Skeleton className="h-10 w-48 rounded-md mb-8" />
+          </div>
+
+          {/* Course sidebar skeleton */}
+          <div className="hidden lg:block lg:w-1/3">
+            <div className="bg-[#151627] border border-gray-800 rounded-lg p-5">
+              <Skeleton className="h-48 w-full mb-4 rounded-md" />
+
+              <div className="mb-4">
+                <Skeleton className="h-8 w-1/2 mb-2" />
+              </div>
+
+              <Skeleton className="h-14 w-full rounded-md mb-3" />
+              <Skeleton className="h-4 w-full mb-6" />
+
+              <Skeleton className="h-5 w-3/4 mb-4" />
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <Skeleton className="h-5 w-5 mr-3 rounded-full" />
+                  <Skeleton className="h-5 w-1/2" />
+                </div>
+                <div className="flex items-center">
+                  <Skeleton className="h-5 w-5 mr-3 rounded-full" />
+                  <Skeleton className="h-5 w-1/2" />
+                </div>
+                <div className="flex items-center">
+                  <Skeleton className="h-5 w-5 mr-3 rounded-full" />
+                  <Skeleton className="h-5 w-1/2" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Course content skeleton */}
+    <div className="container mx-auto px-4 py-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          <Skeleton className="h-12 w-full mb-6 rounded-md" />
+          
+          <div className="bg-[#151627] border border-gray-800 rounded-lg p-6 mb-8">
+            <Skeleton className="h-7 w-48 mb-4" />
+            <Skeleton className="h-5 w-full mb-2" />
+            <Skeleton className="h-5 w-full mb-2" />
+            <Skeleton className="h-5 w-3/4 mb-2" />
+          </div>
+          
+          <div className="bg-[#151627] border border-gray-800 rounded-lg p-6 mb-8">
+            <Skeleton className="h-7 w-64 mb-4" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="flex">
+                  <Skeleton className="h-5 w-5 mr-3 rounded-full" />
+                  <Skeleton className="h-5 w-full" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Sidebar for related courses skeleton */}
+        <div className="hidden lg:block">
+          <div className="sticky top-8 space-y-6">
+            <div className="bg-[#151627] border border-gray-800 rounded-lg p-6">
+              <Skeleton className="h-7 w-48 mb-4" />
+              
+              <div className="space-y-4">
+                {[...Array(3)].map((_, index) => (
+                  <div key={index} className="bg-[#1C1D33] rounded-xl overflow-hidden border border-gray-800">
+                    <Skeleton className="h-40 w-full" />
+                    <div className="p-4">
+                      <Skeleton className="h-5 w-full mb-2" />
+                      <Skeleton className="h-4 w-1/3 mb-2" />
+                      <Skeleton className="h-5 w-1/2" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)
+
 // Main component
 export default function CourseDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [formation, setFormation] = useState<Formation | null>(null)
@@ -179,7 +295,9 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
           const formationsRef = collection(db, "formations")
           const q = query(
             formationsRef, 
-            where("categorie", "==", formationData.categorie)
+            where("categorie", "==", formationData.categorie),
+            // Limiter à 4 résultats pour en avoir au moins 3 après filtrage
+            // de la formation actuelle
           )
           
           const querySnapshot = await getDocs(q)
@@ -189,6 +307,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
             .slice(0, 3) // Limiter à 3 formations similaires
           
           setRelatedFormations(similarFormations)
+          console.log(`Trouvé ${similarFormations.length} formations similaires dans la catégorie "${formationData.categorie}"`)
         } else {
           setError("Formation non trouvée")
           console.error("Formation non trouvée")
@@ -210,11 +329,7 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0A0B1C] flex items-center justify-center">
-        <div className="text-white text-xl">Chargement de la formation...</div>
-      </div>
-    )
+    return <FormationDetailSkeleton />
   }
 
   if (error || !formation) {

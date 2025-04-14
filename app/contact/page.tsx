@@ -12,16 +12,75 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { toast } from "sonner"
 
 export default function ContactPage() {
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "information", // valeur par défaut
+    message: ""
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target
+    setFormData(prev => ({ ...prev, [id]: value }))
+  }
+
+  const handleSelectChange = (value: string) => {
+    setFormData(prev => ({ ...prev, subject: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Simulate form submission
-    setTimeout(() => {
+    
+    // Validation basique
+    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+      toast.error("Veuillez remplir tous les champs obligatoires")
+      return
+    }
+
+    try {
+      setLoading(true)
+      
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Une erreur s'est produite lors de l'envoi du message")
+      }
+
+      // Réinitialiser le formulaire et afficher le message de succès
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "information",
+        message: ""
+      })
       setFormSubmitted(true)
-    }, 1000)
+      toast.success("Votre message a été envoyé avec succès !")
+      
+    } catch (error: any) {
+      console.error("Erreur lors de l'envoi du message:", error)
+      toast.error(error.message || "Une erreur s'est produite lors de l'envoi du message")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const resetForm = () => {
+    setFormSubmitted(false)
   }
 
   return (
@@ -121,7 +180,7 @@ export default function ContactPage() {
                     Merci de nous avoir contactés. Notre équipe vous répondra dans les plus brefs délais.
                   </p>
                   <Button
-                    onClick={() => setFormSubmitted(false)}
+                    onClick={resetForm}
                     className="bg-[#037483] hover:bg-[#025E69] text-white"
                   >
                     Envoyer un autre message
@@ -136,6 +195,8 @@ export default function ContactPage() {
                         id="name"
                         placeholder="Votre nom"
                         required
+                        value={formData.name}
+                        onChange={handleChange}
                         className="bg-[#1C1D33] border-gray-700 text-white placeholder:text-gray-500"
                       />
                     </div>
@@ -146,24 +207,38 @@ export default function ContactPage() {
                         type="email"
                         placeholder="votre@email.com"
                         required
+                        value={formData.email}
+                        onChange={handleChange}
                         className="bg-[#1C1D33] border-gray-700 text-white placeholder:text-gray-500"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="subject">Sujet</Label>
-                    <Select>
-                      <SelectTrigger className="bg-[#1C1D33] border-gray-700 text-white">
-                        <SelectValue placeholder="Sélectionnez un sujet" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-[#1C1D33] border-gray-700 text-white">
-                        <SelectItem value="information">Demande d'information</SelectItem>
-                        <SelectItem value="support">Support technique</SelectItem>
-                        <SelectItem value="partnership">Partenariat</SelectItem>
-                        <SelectItem value="other">Autre</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Téléphone (optionnel)</Label>
+                      <Input
+                        id="phone"
+                        placeholder="Votre numéro de téléphone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="bg-[#1C1D33] border-gray-700 text-white placeholder:text-gray-500"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="subject">Sujet</Label>
+                      <Select value={formData.subject} onValueChange={handleSelectChange}>
+                        <SelectTrigger className="bg-[#1C1D33] border-gray-700 text-white">
+                          <SelectValue placeholder="Sélectionnez un sujet" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-[#1C1D33] border-gray-700 text-white">
+                          <SelectItem value="information">Demande d'information</SelectItem>
+                          <SelectItem value="support">Support technique</SelectItem>
+                          <SelectItem value="partnership">Partenariat</SelectItem>
+                          <SelectItem value="other">Autre</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -173,12 +248,27 @@ export default function ContactPage() {
                       placeholder="Comment pouvons-nous vous aider ?"
                       rows={6}
                       required
+                      value={formData.message}
+                      onChange={handleChange}
                       className="bg-[#1C1D33] border-gray-700 text-white placeholder:text-gray-500 resize-none"
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-[#037483] hover:bg-[#025E69] text-white">
-                    <Send className="mr-2 h-4 w-4" /> Envoyer le message
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-[#037483] hover:bg-[#025E69] text-white"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" /> Envoyer le message
+                      </>
+                    )}
                   </Button>
                 </form>
               )}

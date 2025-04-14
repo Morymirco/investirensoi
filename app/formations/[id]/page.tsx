@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { db } from "@/services/firestore"
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, query, where, orderBy, serverTimestamp, addDoc } from "firebase/firestore"
 import { AnimatePresence, motion } from "framer-motion"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -20,6 +20,11 @@ import {
   FaRegFileAlt
 } from "react-icons/fa"
 import { Skeleton } from "@/components/ui/skeleton"
+import { StarIcon } from "lucide-react"
+import { toast } from "sonner"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 
 // Interface pour le type de formation
 interface Formation {
@@ -34,6 +39,16 @@ interface Formation {
   niveau: string;
   chapitres: any[];
   cree_le?: any;
+}
+
+// Interface pour les avis
+interface Avis {
+  id: string;
+  formationId: string;
+  nom: string;
+  commentaire: string;
+  note: number;
+  date: any;
 }
 
 // Curriculum accordion component
@@ -263,6 +278,149 @@ const FormationDetailSkeleton = () => (
   </div>
 )
 
+// Composant étoiles pour la notation
+const StarRating = ({ rating, setRating, size = 24, interactive = true }: { 
+  rating: number; 
+  setRating?: (rating: number) => void;
+  size?: number;
+  interactive?: boolean;
+}) => {
+  return (
+    <div className="flex items-center">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <button
+          key={star}
+          onClick={() => interactive && setRating?.(star)}
+          className={`${interactive ? 'cursor-pointer' : 'cursor-default'} p-1`}
+          disabled={!interactive}
+        >
+          <StarIcon
+            size={size}
+            className={`${
+              star <= rating
+                ? 'text-yellow-400 fill-yellow-400'
+                : 'text-gray-400'
+            }`}
+          />
+        </button>
+      ))}
+    </div>
+  )
+}
+
+// Composant pour afficher un avis
+const AvisCard = ({ avis }: { avis: Avis }) => (
+  <motion.div
+    variants={itemVariants}
+    className="bg-[#151627] rounded-xl p-6 border border-gray-800"
+  >
+    <div className="flex justify-between items-start mb-4">
+      <div>
+        <h4 className="text-white font-medium mb-1">{avis.nom}</h4>
+        <p className="text-gray-400 text-sm">
+          {new Date(avis.date?.seconds * 1000).toLocaleDateString()}
+        </p>
+      </div>
+      <StarRating rating={avis.note} interactive={false} size={16} />
+    </div>
+    <p className="text-gray-300">{avis.commentaire}</p>
+  </motion.div>
+)
+
+// Formulaire d'avis
+const AvisForm = ({ formationId, onAvisSubmitted }: { 
+  formationId: string;
+  onAvisSubmitted: () => void;
+}) => {
+  const [nom, setNom] = useState("")
+  const [commentaire, setCommentaire] = useState("")
+  const [note, setNote] = useState(0)
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (!nom || !commentaire || note === 0) {
+      toast.error("Veuillez remplir tous les champs et donner une note")
+      return
+    }
+
+    try {
+      setLoading(true)
+      
+      await addDoc(collection(db, "formation_avis"), {
+        formationId,
+        nom,
+        commentaire,
+        note,
+        date: serverTimestamp()
+      })
+
+      setNom("")
+      setCommentaire("")
+      setNote(0)
+      onAvisSubmitted()
+      toast.success("Merci pour votre avis !")
+      
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de l'avis:", error)
+      toast.error("Une erreur s'est produite lors de l'envoi de votre avis")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <Label htmlFor="nom">Votre nom</Label>
+        <Input
+          id="nom"
+          value={nom}
+          onChange={(e) => setNom(e.target.value)}
+          className="bg-[#1C1D33] border-gray-700 text-white"
+          placeholder="Entrez votre nom"
+          required
+        />
+      </div>
+      
+      <div>
+        <Label>Note</Label>
+        <div className="mt-2">
+          <StarRating rating={note} setRating={setNote} />
+        </div>
+      </div>
+      
+      <div>
+        <Label htmlFor="commentaire">Votre avis</Label>
+        <Textarea
+          id="commentaire"
+          value={commentaire}
+          onChange={(e) => setCommentaire(e.target.value)}
+          className="bg-[#1C1D33] border-gray-700 text-white"
+          placeholder="Partagez votre expérience avec cette formation..."
+          required
+        />
+      </div>
+      
+      <Button 
+        type="submit" 
+        className="w-full bg-[#048B9A] hover:bg-[#037483] text-white"
+        disabled={loading}
+      >
+        {loading ? (
+          <>
+            <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+            Envoi en cours...
+          </>
+        ) : (
+          "Publier l'avis"
+        )}
+      </Button>
+    </form>
+  )
+}
+
 // Main component
 export default function CourseDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [formation, setFormation] = useState<Formation | null>(null)
@@ -271,6 +429,8 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
   const [error, setError] = useState<string | null>(null)
   const courseContentRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
+  const [avis, setAvis] = useState<Avis[]>([])
+  const [showAvisForm, setShowAvisForm] = useState(false)
   
   // Résoudre la promesse des paramètres
   const resolvedParams = use(params)
@@ -321,6 +481,32 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
     }
 
     fetchFormation()
+  }, [resolvedParams.id])
+
+  // Fonction pour récupérer les avis
+  const fetchAvis = async (formationId: string) => {
+    try {
+      const avisRef = collection(db, "formation_avis")
+      const q = query(
+        avisRef,
+        where("formationId", "==", formationId),
+        orderBy("date", "desc")
+      )
+      const querySnapshot = await getDocs(q)
+      const avisList = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      } as Avis))
+      setAvis(avisList)
+    } catch (error) {
+      console.error("Erreur lors de la récupération des avis:", error)
+    }
+  }
+
+  useEffect(() => {
+    if (resolvedParams.id) {
+      fetchAvis(resolvedParams.id)
+    }
   }, [resolvedParams.id])
 
   // Fonction pour faire défiler jusqu'au contenu du cours
@@ -524,6 +710,54 @@ export default function CourseDetailPage({ params }: { params: Promise<{ id: str
                 </motion.div>
               </TabsContent>
             </Tabs>
+
+            {/* Avis section */}
+            <div className="bg-[#151627] border border-gray-800 rounded-lg p-6 mb-8">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-semibold text-white">Avis des apprenants</h2>
+                <Button
+                  onClick={() => setShowAvisForm(!showAvisForm)}
+                  className="bg-[#048B9A] hover:bg-[#037483] text-white"
+                >
+                  {showAvisForm ? "Fermer" : "Donner un avis"}
+                </Button>
+              </div>
+
+              {showAvisForm && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-[#1C1D33] border border-gray-800 rounded-lg p-6 mb-8"
+                >
+                  <h3 className="text-xl font-semibold text-white mb-4">Votre avis</h3>
+                  <AvisForm 
+                    formationId={resolvedParams.id} 
+                    onAvisSubmitted={() => {
+                      fetchAvis(resolvedParams.id)
+                      setShowAvisForm(false)
+                    }} 
+                  />
+                </motion.div>
+              )}
+
+              {avis.length > 0 ? (
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 gap-6"
+                >
+                  {avis.map((avis) => (
+                    <AvisCard key={avis.id} avis={avis} />
+                  ))}
+                </motion.div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-400">Aucun avis n'a encore été donné pour cette formation.</p>
+                  <p className="text-gray-400 mt-2">Soyez le premier à partager votre expérience !</p>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Sidebar for related courses */}

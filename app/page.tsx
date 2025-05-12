@@ -4,6 +4,7 @@ import CourseSection from './components/CourseSection';
 import FeaturesSection from './components/FeaturesSection';
 import HeroSection from './components/HeroSection';
 import MissionSection from './components/MissionSection';
+import PartnershipSection from './components/PartnershipSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import { CategoryGrid } from './components/category-grid';
 import FeaturedCourses from './components/featured-courses';
@@ -89,6 +90,7 @@ export default function Home() {
       {/* <SpiralIcon /> */}
       {/* <ChatIcon /> */}
       <FeaturesSection />
+      <PartnershipSection />
       <CourseSection />
       <MindeoSection />
       <TestimonialsSection />

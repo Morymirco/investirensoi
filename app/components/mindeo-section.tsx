@@ -25,7 +25,7 @@ const MindeoSection = () => {
           </h2>
 
           <p className="my-8 text-gray-300 max-w-xl">
-            Mindeo c'est déjà 4 formations expertes dans leurs domaines: Lancez vos business grâce à Business Pro,
+            Investir En Soi c'est déjà 4 formations expertes dans leurs domaines: Lancez vos business grâce à Business Pro,
             comprenez les rouages de l'investissement immobilier avec Immo Pro ou devenez une meilleure version de
             vous-même grâce à Success Pro.
           </p>

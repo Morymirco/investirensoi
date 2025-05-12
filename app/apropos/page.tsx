@@ -47,8 +47,8 @@ export default function AProposPage() {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Notre Histoire</h2>
             <p className="text-gray-300 text-lg">
-              Fondée en 2018, Investir en Soi est née d'une vision simple mais ambitieuse : rendre l'éducation de
-              qualité accessible à tous, partout et à tout moment.
+              Fondée en octobre 2024 en République de Guinée, Investir En Soi est le fruit d'une vision simple mais audacieuse : rendre la formation professionnelle en Afrique, accessible à tous, et à tout moment.
+              Avec Investir En Soi, l'apprentissage devient un levier universel pour transformer des ambitions professionnelles en réussites concrètes.
             </p>
           </div>
 
@@ -56,30 +56,30 @@ export default function AProposPage() {
             <div className="order-2 md:order-1">
               <div className="space-y-6">
                 <div className="bg-[#151627] p-6 rounded-xl border border-gray-800">
-                  <h3 className="text-xl font-semibold mb-3 flex items-center">
-                    <Calendar className="mr-2 text-[#037483]" /> 2018
-                  </h3>
-                  <p className="text-gray-300">
-                    Création d'Investir en Soi avec une offre de 10 formations en ligne dans le domaine du développement
-                    personnel.
-                  </p>
+                  <h3 className="text-xl font-semibold mb-3">Pourquoi choisir nos programmes ?</h3>
+                  <ul className="text-gray-300 space-y-2">
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <span>Flexibilité : Apprenez à votre rythme, où que vous soyez.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <span>Qualité : Contenus conçus par nombreux experts francophones.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <span>Pratique : Des exercices concrets et des études de cas pour une application immédiate en entreprise.</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="mr-2">•</span>
+                      <span>Accompagnement : Une communauté et des ressources pour vous soutenir tout au long de votre parcours.</span>
+                    </li>
+                  </ul>
                 </div>
 
                 <div className="bg-[#151627] p-6 rounded-xl border border-gray-800">
-                  <h3 className="text-xl font-semibold mb-3 flex items-center">
-                    <Calendar className="mr-2 text-[#037483]" /> 2020
-                  </h3>
                   <p className="text-gray-300">
-                    Expansion de notre catalogue avec plus de 100 formations et lancement de notre application mobile.
-                  </p>
-                </div>
-
-                <div className="bg-[#151627] p-6 rounded-xl border border-gray-800">
-                  <h3 className="text-xl font-semibold mb-3 flex items-center">
-                    <Calendar className="mr-2 text-[#037483]" /> 2023
-                  </h3>
-                  <p className="text-gray-300">
-                    Plus de 250 000 apprenants et reconnaissance internationale avec des prix d'innovation pédagogique.
+                    Avec nos partenaires (consultants, cabinets, institutions), nous bâtissons un écosystème d'apprentissage africain, pratique, inclusif et ambitieux.
                   </p>
                 </div>
               </div>
@@ -99,8 +99,8 @@ export default function AProposPage() {
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Notre Mission</h2>
             <p className="text-gray-300 text-lg">
-              Nous croyons en une éducation accessible qui vous donne les moyens de transformer votre vie et d'atteindre
-              vos objectifs personnels et professionnels.
+              Notre mission est de démocratiser l'expertise en Afrique à travers le numérique, en fournissant des solutions de formation plus flexibles, adaptées aux besoins et aux réalités du marché Africains.
+              Conçues par une équipe d'experts francophones reconnus, nos formations de qualité supérieure sont pensées pour vous offrir une méthode d'apprentissage pratique et efficace.
             </p>
           </div>
 
@@ -140,7 +140,66 @@ export default function AProposPage() {
         </div>
       </section>
 
-      {/* Notre Équipe */}
+      {/* Notre Promesse - Nouvelle section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Notre Promesse</h2>
+            <p className="text-gray-300 text-xl mb-8">
+              Apprenez à votre rythme. Avec les meilleurs. Depuis là où vous êtes.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-[#151627] p-6 rounded-xl border border-gray-800 hover:border-[#037483] transition-all duration-300">
+              <div className="flex items-start">
+                <div className="bg-[#037483]/20 p-2 rounded-full mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#037483]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-gray-300">Formations 100 % en ligne – accessibles 24h/24</p>
+              </div>
+            </div>
+            
+            <div className="bg-[#151627] p-6 rounded-xl border border-gray-800 hover:border-[#037483] transition-all duration-300">
+              <div className="flex items-start">
+                <div className="bg-[#037483]/20 p-2 rounded-full mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#037483]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-gray-300">Contenus concrets, applicables dès demain</p>
+              </div>
+            </div>
+            
+            <div className="bg-[#151627] p-6 rounded-xl border border-gray-800 hover:border-[#037483] transition-all duration-300">
+              <div className="flex items-start">
+                <div className="bg-[#037483]/20 p-2 rounded-full mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#037483]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-gray-300">Experts praticiens reconnus dans toute l'Afrique</p>
+              </div>
+            </div>
+            
+            <div className="bg-[#151627] p-6 rounded-xl border border-gray-800 hover:border-[#037483] transition-all duration-300">
+              <div className="flex items-start">
+                <div className="bg-[#037483]/20 p-2 rounded-full mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#037483]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="text-gray-300">Certificats professionnels valorisables sur le marché</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Notre Équipe - Section commentée */}
+      {/*
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center mb-16">
@@ -171,15 +230,17 @@ export default function AProposPage() {
                   <p className="text-gray-300 text-sm mb-4">
                     je suis un developpeur full stack et je suis passionné par la creation de valeur pour les entreprises et les particuliers.
                   </p>
-                  <div className="flex space-x-3">{/* Social media icons would go here */}</div>
+                  <div className="flex space-x-3"></div>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+      */}
 
-      {/* Nos Chiffres */}
+      {/* Nos Chiffres - Section commentée */}
+      {/*
       <section className="py-16 md:py-24 bg-[#151627]">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center mb-16">
@@ -212,6 +273,7 @@ export default function AProposPage() {
           </div>
         </div>
       </section>
+      */}
 
       {/* CTA Section */}
       <section className="py-16 md:py-24">

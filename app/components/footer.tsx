@@ -17,8 +17,8 @@ export default function Footer() {
               <span className="text-white text-lg md:text-xl font-bold">INVESTIR EN SOI</span>
             </div>
             <div className="text-gray-400 space-y-1 md:space-y-2 text-sm md:text-base">
-              <p>Yattaya, ratoma</p>
-              <p>conakry -Guinée</p>
+              <p>Yattaya, Conakry</p>
+              <p>République de Guinée</p>
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-center sm:justify-start space-x-2 text-gray-400">
@@ -29,8 +29,8 @@ export default function Footer() {
               </div>
               <div className="flex items-center justify-center sm:justify-start space-x-2 text-gray-400">
                 <Phone className="w-4 md:w-5 h-4 md:h-5" />
-                <a href="tel:+224625212115" className="hover:text-white transition-colors text-sm md:text-base">
-                  (+224) 625 21 21 15
+                <a href="tel:+224620353404" className="hover:text-white transition-colors text-sm md:text-base">
+                  (+224) 620 35 34 04
                 </a>
               </div>
             </div>

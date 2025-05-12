@@ -2,16 +2,15 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle2 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { motion } from "framer-motion"
+import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from "lucide-react"
+import Image from "next/image"
+import { useState } from "react"
 import { toast } from "sonner"
 
 export default function ContactPage() {
@@ -120,8 +119,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Téléphone</h3>
               <p className="text-gray-300 mb-4">Nous sommes disponibles du lundi au vendredi de 9h à 18h.</p>
-              <a href="tel:+33123456789" className="text-[#037483] hover:underline font-medium">
-                +33 1 23 45 67 89
+              <a href="tel:+224620353404" className="text-[#037483] hover:underline font-medium">
+                (+224) 620 35 34 04
               </a>
             </motion.div>
 
@@ -136,8 +135,8 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Email</h3>
               <p className="text-gray-300 mb-4">Nous répondons généralement dans un délai de 24 heures.</p>
-              <a href="mailto:contact@investirensoi.fr" className="text-[#037483] hover:underline font-medium">
-                contact@investirensoi.fr
+              <a href="mailto:contact@investirensoi.com" className="text-[#037483] hover:underline font-medium">
+                contact@investirensoi.com
               </a>
             </motion.div>
 
@@ -152,8 +151,54 @@ export default function ContactPage() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Adresse</h3>
               <p className="text-gray-300 mb-4">Venez nous rencontrer dans nos locaux.</p>
-              <address className="text-[#037483] not-italic">123 Avenue de l'Innovation, 75000 Paris</address>
+              <address className="text-[#037483] not-italic">Yattaya, Conakry, République de Guinée</address>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Info Cards */}
+      <section className="py-8">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <h3 className="text-2xl font-semibold mb-4">Nos réseaux sociaux</h3>
+            <p className="text-gray-300 mb-6">Suivez-nous sur les réseaux sociaux pour rester informé de nos actualités et nouvelles formations.</p>
+            
+            <div className="flex justify-center space-x-6">
+              {/* Placeholder pour les icônes de réseaux sociaux - à remplacer avec les liens réels */}
+              <a href="#" className="text-[#037483] hover:text-[#025E69] transition-colors">
+                <div className="w-12 h-12 bg-[#151627] rounded-full flex items-center justify-center border border-gray-800 hover:border-[#037483]">
+                  {/* Icône Facebook */}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                  </svg>
+                </div>
+              </a>
+              
+              <a href="#" className="text-[#037483] hover:text-[#025E69] transition-colors">
+                <div className="w-12 h-12 bg-[#151627] rounded-full flex items-center justify-center border border-gray-800 hover:border-[#037483]">
+                  {/* Icône LinkedIn */}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                  </svg>
+                </div>
+              </a>
+              
+              <a href="#" className="text-[#037483] hover:text-[#025E69] transition-colors">
+                <div className="w-12 h-12 bg-[#151627] rounded-full flex items-center justify-center border border-gray-800 hover:border-[#037483]">
+                  {/* Icône Instagram */}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </div>
+              </a>
+            </div>
+            
+            <p className="text-gray-400 mt-4">Investir En Soi – Pro</p>
           </div>
         </div>
       </section>
@@ -365,8 +410,8 @@ export default function ContactPage() {
             <div className="bg-[#1C1D33] p-6 rounded-xl border border-gray-800">
               <h3 className="text-xl font-semibold mb-3">Comment contacter le support technique ?</h3>
               <p className="text-gray-300">
-                Notre équipe de support technique est disponible par email à support@investirensoi.fr ou par téléphone
-                au +33 1 23 45 67 89 du lundi au vendredi de 9h à 18h.
+                Notre équipe de support technique est disponible par email à contact@investirensoi.com ou par téléphone
+                au (+224) 620 35 34 04 du lundi au vendredi de 9h à 18h.
               </p>
             </div>
           </div>

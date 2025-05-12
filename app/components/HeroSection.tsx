@@ -15,7 +15,7 @@ export default function MindeoHero() {
           {/* Left content */}
           <div className="text-white space-y-6">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Insvertir en Soi – L&apos;école 2.0 qui vous accompagne vers vos objectifs 🎯
+            Investir En Soi – Faites de vous votre meilleur investissement 🎯
             </h1>
 
             <div className="flex items-center space-x-2">
@@ -34,7 +34,10 @@ export default function MindeoHero() {
             </div>
 
             <p className="text-lg md:text-xl opacity-90 max-w-lg">
-            Insvertir en Soi est l'école en ligne qui vous permet d'acquérir les compétences essentielles dans les domaines du business, de l’investissement, du développement personnel, de l’informatique et du digital.
+            Une nouvelle façon de se former. Pour une nouvelle génération de professionnels africains.
+Investir En Soi est la 1ère plateforme panafricaine de formation professionnelle en ligne 100 % orientée terrain.
+Notre mission : mettre l’expertise des meilleurs praticiens africains à portée de clic, partout et à tout moment.
+
             </p>
 
             <div>

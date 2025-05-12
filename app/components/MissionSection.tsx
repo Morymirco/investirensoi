@@ -57,14 +57,9 @@ export default function MissionSection() {
                 Notre <span className="text-[#6C8DFF]">mission</span>
               </h2>
               <div className="space-y-4 text-white/90">
-                <p className="text-xl">Osez devenir une meilleure version de vous-même avec notre école en ligne.</p>
+                <p className="text-xl">Notre mission est de démocratiser l'expertise en Afrique à travers le numérique, en fournissant des solutions de formation plus flexibles, adaptées aux besoins et aux réalités du marché Africains.</p>
                 <p>
-                  Des milliers de personnes ont déjà suivi nos programmes en ligne dans les domaines du business, de
-                  l&apos;investissement et du développement personnel.
-                </p>
-                <p>
-                  Nos formations de haute qualité sont conçues par plus de 30 experts francophones, et notre plateforme
-                  d&apos;apprentissage en ligne vise à offrir un moyen efficace et pratique de développer vos compétences.
+                  Conçues par une équipe d'experts francophones reconnus, nos formations de qualité supérieure sont pensées pour vous offrir une méthode d'apprentissage pratique et efficace.
                 </p>
               </div>
             </div>

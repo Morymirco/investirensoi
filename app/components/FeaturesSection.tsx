@@ -12,15 +12,15 @@ const FeaturesSection = () => {
     },
     {
       id: 2,
-      title: "Étape par étape",
+      title: "Un coaching personnalisé pour maximiser votre réussite",
       icon: "steps",
-      description: "Chaque formation offre une marche à suivre étape par étape, développée pour vous donner les stratégies nécessaires afin d'atteindre vos objectifs."
+      description: "En rejoignant nos programmes, vous bénéficierez de l'opportunité d'accéder à un accompagnement personnalisé dispensé par nos consultants et experts. Cet encadrement sur mesure est conçu pour vous aider à surmonter vos défis, affiner vos stratégies et atteindre vos objectifs tout au long de votre parcours."
     },
     {
       id: 3,
-      title: "Un coaching personnalisé!",
+      title: "Un certificat professionnel pour valider vos compétences",
       icon: "user",
-      description: "Vous aurez la possibilité d'avoir accès à un accompagnement personnalisé de la part de nos coachs, pour atteindre vos objectifs lors des étapes de votre parcours. Mais n'oubliez pas ; vos résultats dépendent avant tout de vos efforts!"
+      description: "À l'issue de chaque formation, vous recevrez un certificat professionnel attestant de vos nouvelles compétences, un atout précieux pour enrichir votre CV, renforcer votre crédibilité ou évoluer dans votre carrière. Avec Investir en Soi, prenez en main votre avenir et développez les compétences qui feront la différence. Rejoignez-nous dès aujourd'hui !"
     }
   ];
 
